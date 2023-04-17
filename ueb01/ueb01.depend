@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1681492791 source:a:\dokumente\bht\sose23\aud\ueb01\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1677498469 source:a:\dokumente\bht\sose23\aud\ueb01\ueb01.c
+	<stdio.h>
+	"datastructure.h"
+	"tools.h"
+	"datetime.h"
+
+1681501097 a:\dokumente\bht\sose23\aud\ueb01\datastructure.h
+
+1681664440 a:\dokumente\bht\sose23\aud\ueb01\tools.h
+
+1681501003 a:\dokumente\bht\sose23\aud\ueb01\datetime.h
+
+1681664482 source:a:\dokumente\bht\sose23\aud\ueb01\datetime.c
+	<stdio.h>
+	"datastructure.h"
+
+1681660896 source:a:\dokumente\bht\sose23\aud\ueb01\tools.c
+	<stdio.h>
+	<stdlib.h>
+
