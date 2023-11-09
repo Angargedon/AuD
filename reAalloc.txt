@@ -1,0 +1,17 @@
+MoinMoin
+
+char p* = malloc(max+1);+
+
+if(p){
+	len=strlen(p);
+
+	if(realloc(p,len+1))
+	
+	...
+
+}
+
+----------------------------
+p = realloc(NULL, max); //ist eigentlich malloc
+----------------------------
+p = realloc(p,0);  //ist eigentlich free
