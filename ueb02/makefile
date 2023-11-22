@@ -1,4 +1,4 @@
-cc = gcc -Wall -pedantic
+cc = gcc -Wall
 prg = main.exe
 obj = main.o datetime.o tools.o calendar.o menu.o
 

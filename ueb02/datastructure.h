@@ -1,15 +1,15 @@
 #ifndef DATASTRUCTURE_H
 #define DATASTRUCTURE_H
 
-#define MAXAPPOINTMENTS 100
+enum eDayOfWeek{NotADay, Mo, Di, Mi, Do, Fr, Sa, So};
 
-typedef enum {So, Mo, Di, Mi, Do, Fr, Sa} eDayofTheWeek;
+#define MAXAPPOINTMENTS 100
 
 typedef struct{
     int Day;
     int Month;
     int Year;
-    eDayofTheWeek WeekDay;
+    int eDayOfWeek;
 } sDate;
 
 typedef struct{
@@ -19,14 +19,13 @@ typedef struct{
 }sTime;
 
 typedef struct{
-    sDate *Date;
-    sTime *Time;
+    sDate Date;
+    sTime Time;
     char *Description;
-    char *Location;
-    sTime *Lenght;
+    sTime Lenght;
 }sAppointment;
 
-extern int countAppointments;
-extern sAppointment *Calendar[];
+int countAppointments;
+sAppointment Calendar[MAXAPPOINTMENTS];
 
 #endif

@@ -1,19 +1,13 @@
 #include <stdio.h>
-#include <stdlib.h> 
-#include <string.h>
+#include <stdlib.h>
 #include "datastructure.h"
-#include "tools.h"
 
 int isLeapYear(int year){
     return (((year % 4 == 0) &&  (year % 100 != 0)) || ((year % 100 == 0 && year % 400 == 0)));
 }
 
-
 int isDateValid(sDate Date){
     int isDay;
-    int y = Date.Year % 100;
-    int c = Date.Year / 100;
-    int weekday;
 
     switch(Date.Month){
         case 1: isDay = 31; break;                                                                      //'isDay' is the value for the amount
@@ -30,26 +24,21 @@ int isDateValid(sDate Date){
         case 12: isDay = 31;break;                                                                      //invalid.
         default: isDay = 0;
     }
-    if(((Date.Day < 1) || (Date.Day > isDay) || (Date.Year < 1)) == 0){
-        weekday = Date.Day + (2.6 * Date.Month - 0.2) + y + (y / 4) + (c / 4) - (2 * c);
-        Date.WeekDay = weekday % 7;
-        return 1;
-    }
+    if(((Date.Day < 1) || (Date.Day > isDay) || (Date.Year < 1)) == 0) return 1;
     else return 0;
 }
 
-
-int getDateFromString(char *in, sDate *dateptr){                            //While 'counter' is for counting the delimiter in the date
+int getDateFromString(char in[20], sDate *dateptr){                         //While 'counter' is for counting the delimiter in the date
     int counter = 0;                                                        //('.' or '\n'), 'j' on the other hand is another helper like i is.
     int j = 0;                                                              //The for-statement goes as long as the input arrays length is (20).
     char point = '.';                                                       //In this, there is an if-else-statement in which the else-statement
-    char read[20];                                                        //has 'read[j]' and 'in[i]'. If there is a '.' or '\n'/'NULL' then
+    char read[20];                                                          //has 'read[j]' and 'in[i]'. If there is a '.' or '\n'/'NULL' then
                                                                             //in the next turn of the for-statement the if-command gets
     for(int i = 0;counter<3;i++){                                           //turned on and decides by the counter, if the number is the day,
         if(in[i] == point || in[i] == NULL){                                //the month or the year.
             if(counter == 0) dateptr->Day = atoi(read);                     //For example the input is 1.3.2000, first the 1 gets read by
             else if(counter == 1) dateptr->Month = atoi(read);              //'read[j] = in[i]' in the else-statement. After that the second
-            else if(counter == 2) dateptr->Year = atoi(read);             //for-loop comes in action, where the if-statement comes in action
+            else if(counter == 2) dateptr->Year = atoi(read);               //for-loop comes in action, where the if-statement comes in action
                                                                             //because the 'in[i]' has '.' as value. The value of 'counter' is 0,
             counter++;                                                      //telling that the value of 'read' gets assigned for the 'Day' value
             j = 0;                                                          //of the sDate-structure. 'j' gets the value 0, so that 'read[j]'
@@ -61,81 +50,4 @@ int getDateFromString(char *in, sDate *dateptr){                            //Wh
         }                                                                   //if-statement comes in action, the new value of 'read' can get
     }                                                                       //assigned to 'Year'.
     return isDateValid(*dateptr);
-}
-
-
-void getDate(char *prompt, sDate *dateptr){
-    char in[20];
-    
-    do{
-        printf(prompt);
-        scanf("%s", in);
-        clearBuffer();
-    }while(getDateFromString(in, dateptr) != 1);
-}
-
-
-int isTimeValid(sTime Time){
-    int isHourValid = (Time.Hour >= 0) && (Time.Hour <= 23);
-    int isMinuteValid = (Time.Minute >= 0) && (Time.Minute <= 60);
-
-    return (isHourValid && isMinuteValid);
-}
-
-
-int getTimeFromString(char in[10], sTime *timeptr){
-    int counter = 0;
-    int j = 0;
-    char seperate = ':';
-    char read[10];
-
-    for(int i = 0;counter<2;i++){
-        if(counter == seperate || counter == NULL){
-            if(counter == 0) timeptr->Hour = atoi(read);
-            else if(counter == 1) timeptr->Minute = atoi(read);
-
-            counter ++;
-            j = 0;
-        }
-        else{
-            read[j] = in[i];
-            read[j+1] = '\0';
-            j++;
-        }
-    }
-    return isTimeValid(*timeptr);
-}
-
-
-int isTimeValidLite(sTime Time){
-    int isHourValid = (Time.Hour >= 0);
-    int isMinuteValid = (Time.Minute >= 0) && (Time.Minute <= 60);
-    int isSecondValid = (Time.Second >= 0) && (Time.Second <= 60);
-
-    return (isHourValid && isMinuteValid && isSecondValid);
-}
-
-
-int getTimeFromStringLite(char in[20], sTime *timeptr){
-    int counter = 0;
-    int j = 0;
-    char seperate = ':';
-    char read[20];
-
-    for(int i = 0;counter<3;i++){
-        if(counter == seperate || counter == NULL){
-            if(counter == 0) timeptr->Hour = atoi(read);
-            else if(counter == 1) timeptr->Minute = atoi(read);
-            else if(counter == 2) timeptr->Second = atoi(read);
-
-            counter ++;
-            j = 0;
-        }
-        else{
-            read[j] = in[i];
-            read[j+1] = '\0';
-            j++;
-        }
-    }
-    return isTimeValidLite(*timeptr);
 }

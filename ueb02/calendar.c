@@ -1,21 +1,9 @@
 #include <stdio.h>
-#include "datastructure.h"
 #include "tools.h"
-#include "datetime.h"
-
-int countAppointments = 0;
 
 void createAppointment(){
-    sDate Date;
-
     enter(1);
     printf("Termin erstellen");
-    enter(2);
-/*NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCEN*/
-    getDate("Datum: ", &Date);
-    enter(2);
-    printf("Tag: %i\nMonat: %i\nJahr: %i\nWochentag: %i\n", Date.Day, Date.Month, Date.Year, Date.WeekDay);
-/*NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCEN*/
     enter(2);
     waitForEnter("Druecken Sie die Eingabetaste...");
 }

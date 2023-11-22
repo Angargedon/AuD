@@ -4,17 +4,18 @@
 #include "datetime.h"
 
 int countAppointments = 0;
+sAppointment Calendar[MAXAPPOINTMENTS];
 
 void createAppointment(){
-    sDate Date;
+    sDate *Date;
 
     enter(1);
     printf("Termin erstellen");
     enter(2);
 /*NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCEN*/
-    getDate("Datum: ", &Date);
+    getDate("Datum: ", Date);
     enter(2);
-    printf("Tag: %i\nMonat: %i\nJahr: %i\nWochentag: %i\n", Date.Day, Date.Month, Date.Year, Date.WeekDay);
+    printf("Tag: %i\nMonat: %i\n Jahr: %i", Date->Day, Date->Month, Date->Year);
 /*NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCEN*/
     enter(2);
     waitForEnter("Druecken Sie die Eingabetaste...");

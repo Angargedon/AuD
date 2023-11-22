@@ -1,0 +1,40 @@
+# depslib dependency file v1.0
+1699713168 source:a:\dokumente\bht\wise2324\aud\ueb03\ueb03\calendar.c
+	<stdio.h>
+	"datastructure.h"
+	"tools.h"
+	"datetime.h"
+
+1699712876 a:\dokumente\bht\wise2324\aud\ueb03\ueb03\datastructure.h
+
+1699713320 a:\dokumente\bht\wise2324\aud\ueb03\ueb03\tools.h
+
+1699713326 a:\dokumente\bht\wise2324\aud\ueb03\ueb03\datetime.h
+	"datastructure.h"
+
+1699713189 source:a:\dokumente\bht\wise2324\aud\ueb03\ueb03\datetime.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"datastructure.h"
+	"tools.h"
+
+1699713326 source:a:\dokumente\bht\wise2324\aud\ueb03\ueb03\main.c
+	<stdio.h>
+	"tools.h"
+	"menu.h"
+	"calendar.h"
+
+1699713300 a:\dokumente\bht\wise2324\aud\ueb03\ueb03\menu.h
+
+1699713326 a:\dokumente\bht\wise2324\aud\ueb03\ueb03\calendar.h
+
+1699713326 source:a:\dokumente\bht\wise2324\aud\ueb03\ueb03\menu.c
+	<stdio.h>
+	"tools.h"
+
+1699713243 source:a:\dokumente\bht\wise2324\aud\ueb03\ueb03\tools.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
