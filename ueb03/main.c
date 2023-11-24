@@ -8,7 +8,6 @@
 int main(){
     char *menuTitle[] = {"Termin erstellen", "Termin bearbeiten", "Termin entfernen", "Termin suchen", "Termine sortieren", "Terminne auflisten", "Programm beenden"};
     int menuChoice = 0;
-    sAppointment Calendar[MAXAPPOINTMENTS];
     
     do{
         menuChoice = getMenu("ULTIMATIVE TERMINERSTELLUNGSSOFTWARE V0.3", menuTitle, 7);
@@ -40,7 +39,5 @@ int main(){
                 waitForEnter("\n\n\n");
         }
     }while(menuChoice != 7);
-    free(Calendar);
-
     return 0;
 }

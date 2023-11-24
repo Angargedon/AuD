@@ -4,6 +4,14 @@
 #include "datastructure.h"
 #include "tools.h"
 
+sAppointment Calendar[MAXAPPOINTMENTS];
+
+int dayOfWeek(int d, int m, int y){
+    static int jMonth[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+    y = y - (m < 3);
+    return (y + (y/4) - (y/100) + (y/400) + jMonth[m-1] + d) % 7; 
+}
+
 int isLeapYear(int year){
     return (((year % 4 == 0) &&  (year % 100 != 0)) || ((year % 100 == 0 && year % 400 == 0)));
 }
@@ -11,42 +19,38 @@ int isLeapYear(int year){
 
 int isDateValid(sDate Date){
     int isDay;
-    int y = Date.Year % 100;
-    int c = Date.Year / 100;
-    int weekday;
 
     switch(Date.Month){
-        case 1: isDay = 31; break;                                                                      //'isDay' is the value for the amount
-        case 2: if(isLeapYear(Date.Year) == 1) isDay = 29; else isDay = 28; break;                      //of days the input month has.
-        case 3: isDay = 31; break;                                                                      //While switch checks, which month is
-        case 4: isDay = 30; break;                                                                      //chosen in the input it sets the 'isDay'
-        case 5: isDay = 31; break;                                                                      //value for this month. An int truth
-        case 6: isDay = 30; break;                                                                      //value gets returned in which the
-        case 7: isDay = 31; break;                                                                      //if-statement checks if the value
-        case 8: isDay = 31; break;                                                                      //of the input month has to be at least
-        case 9: isDay = 30; break;                                                                      //1 and max. the value of 'isDay'.
-        case 10: isDay = 31; break;                                                                     //If this is not the case, the function
-        case 11: isDay = 30; break;                                                                     //returns 0, telling that the date is
-        case 12: isDay = 31;break;                                                                      //invalid.
+        case 1: isDay = 31; break;
+        case 2: if(isLeapYear(Date.Year) == 1) isDay = 29; else isDay = 28; break;
+        case 3: isDay = 31; break;
+        case 4: isDay = 30; break;
+        case 5: isDay = 31; break;
+        case 6: isDay = 30; break;
+        case 7: isDay = 31; break;
+        case 8: isDay = 31; break;
+        case 9: isDay = 30; break;
+        case 10: isDay = 31; break;
+        case 11: isDay = 30; break;
+        case 12: isDay = 31;break;
         default: isDay = 0;
     }
     if(((Date.Day < 1) || (Date.Day > isDay) || (Date.Year < 1)) == 0){
-        weekday = Date.Day + (2.6 * Date.Month - 0.2) + y + (y / 4) + (c / 4) - (2 * c);
-        Date.WeekDay = weekday % 7;
+        Date.WeekDay = dayOfWeek(Date.Day, Date.Month, Date.Year);
         return 1;
     }
     else return 0;
 }
 
 
-int getDateFromString(char *in, sDate *dateptr){                            //While 'counter' is for counting the delimiter in the date
-    int counter = 0;                                                        //('.' or '\n'), 'j' on the other hand is another helper like i is.
-    int j = 0;                                                              //The for-statement goes as long as the input arrays length is (20).
-    char point = '.';                                                       //In this, there is an if-else-statement in which the else-statement
-    char read[20];                                                        //has 'read[j]' and 'in[i]'. If there is a '.' or '\n'/'NULL' then
-                                                                            //in the next turn of the for-statement the if-command gets
-    for(int i = 0;counter<3;i++){                                           //turned on and decides by the counter, if the number is the day,
-        if(in[i] == point || in[i] == NULL){                                //the month or the year.
+int getDateFromString(char *in, sDate *dateptr){                            
+    int counter = 0;                                                        
+    int j = 0;                                                              
+    char point = '.';                                                       
+    char read[20];                                                        
+                                                                            
+    for(int i = 0;counter<3;i++){                                           
+        if(in[i] == point || in[i] == NULL){               
             if(counter == 0) dateptr->Day = atoi(read);                     //For example the input is 1.3.2000, first the 1 gets read by
             else if(counter == 1) dateptr->Month = atoi(read);              //'read[j] = in[i]' in the else-statement. After that the second
             else if(counter == 2) dateptr->Year = atoi(read);             //for-loop comes in action, where the if-statement comes in action
@@ -72,6 +76,7 @@ void getDate(char *prompt, sDate *dateptr){
         scanf("%s", in);
         clearBuffer();
     }while(getDateFromString(in, dateptr) != 1);
+    Calendar[countAppointments].Date = dateptr;
 }
 
 

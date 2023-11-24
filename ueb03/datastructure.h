@@ -27,6 +27,6 @@ typedef struct{
 }sAppointment;
 
 extern int countAppointments;
-extern sAppointment *Calendar[];
+extern sAppointment Calendar[MAXAPPOINTMENTS];
 
 #endif
