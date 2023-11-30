@@ -19,8 +19,8 @@ typedef struct{
 }sTime;
 
 typedef struct{
-    sDate *Date;
-    sTime *Time;
+    sDate Date;
+    sTime Time;
     char *Description;
     char *Location;
     sTime *Lenght;

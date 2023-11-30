@@ -3,10 +3,10 @@
 #include "tools.h"
 #include "datetime.h"
 
-int countAppointments = 0;
 
 void createAppointment(){
     sDate Date;
+    sTime Time;
 
     enter(1);
     printf("Termin erstellen");
@@ -14,7 +14,11 @@ void createAppointment(){
 /*NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCEN*/
     getDate("Datum: ", &Date);
     enter(2);
-    printf("Tag: %i\nMonat: %i\nJahr: %i\nWochentag: %i\n", Date.Day, Date.Month, Date.Year, Date.WeekDay);
+    printf("Tag: %i\nMonat: %i\nJahr: %i\nWochentag: %i\n", Calendar[countAppointments].Date.Day, Calendar[countAppointments].Date.Month, Calendar[countAppointments].Date.Year, Calendar[countAppointments].Date.WeekDay);
+    waitForEnter("\n\nEnter..\n\n");
+    getTime("Uhrzeit eingeben: ", &Time);
+    enter(2);
+    printf("Stunde: %i\nMinute: %i\n", Calendar[countAppointments].Time.Hour, Calendar[countAppointments].Time.Minute);
 /*NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCEN*/
     enter(2);
     waitForEnter("Druecken Sie die Eingabetaste...");

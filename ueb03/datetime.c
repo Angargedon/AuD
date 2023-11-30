@@ -12,6 +12,7 @@ int dayOfWeek(int d, int m, int y){
     return (y + (y/4) - (y/100) + (y/400) + jMonth[m-1] + d) % 7; 
 }
 
+
 int isLeapYear(int year){
     return (((year % 4 == 0) &&  (year % 100 != 0)) || ((year % 100 == 0 && year % 400 == 0)));
 }
@@ -51,55 +52,63 @@ int getDateFromString(char *in, sDate *dateptr){
                                                                             
     for(int i = 0;counter<3;i++){                                           
         if(in[i] == point || in[i] == NULL){               
-            if(counter == 0) dateptr->Day = atoi(read);                     //For example the input is 1.3.2000, first the 1 gets read by
-            else if(counter == 1) dateptr->Month = atoi(read);              //'read[j] = in[i]' in the else-statement. After that the second
-            else if(counter == 2) dateptr->Year = atoi(read);             //for-loop comes in action, where the if-statement comes in action
-                                                                            //because the 'in[i]' has '.' as value. The value of 'counter' is 0,
-            counter++;                                                      //telling that the value of 'read' gets assigned for the 'Day' value
-            j = 0;                                                          //of the sDate-structure. 'j' gets the value 0, so that 'read[j]'
-        }                                                                   //gets a reset. The value of 'counter' gets added by 1, so that in
-        else{                                                               //the next time in that if-statement the value which get read now,
-            read[j] = in[i];                                                //can be assigned to the month. And then if the next '.' is reached
-            read[j+1] = '\0';                                               //the if-statement gets repeated but the value assigned to month,
-            j++;                                                            //'counter' again added by 1 so in the next loop where the
-        }                                                                   //if-statement comes in action, the new value of 'read' can get
-    }                                                                       //assigned to 'Year'.
+            if(counter == 0) dateptr->Day = atoi(read);
+            else if(counter == 1) dateptr->Month = atoi(read);
+            else if(counter == 2) dateptr->Year = atoi(read);
+
+            counter++;
+            j = 0;
+        }
+        else{
+            read[j] = in[i];
+            read[j+1] = '\0';
+            j++;
+        }
+    }
     return isDateValid(*dateptr);
 }
 
 
 void getDate(char *prompt, sDate *dateptr){
     char in[20];
-    
-    do{
-        printf(prompt);
-        scanf("%s", in);
-        clearBuffer();
-    }while(getDateFromString(in, dateptr) != 1);
-    Calendar[countAppointments].Date = dateptr;
+    dateptr = calloc(1, sizeof(sDate));
+
+    if(dateptr != NULL){
+        do{
+            printf(prompt);
+            scanf("%s", in);
+            clearBuffer();
+        }while(getDateFromString(in, dateptr) != 1);
+        Calendar[countAppointments].Date = *dateptr;
+    }
+    else{
+        printf("Kein Speicher vorhanden. Mit einem Upgrade auf iCloud+ erhalten Sie auf diverse Geraete mehr Speicher und zusaetzliche Funktionen, wie 'iCloud Privat-Relay', 'E-Mail Adresse verbergen' und 'HomeKit Secure Video'. Sie koennen sogar ihr Abo mit Ihrer Familie teilen. Weitere Infos finden Sie auf apple.de/icloud");
+        enter(2);
+        waitForEnter("Zum Fortfahren druecken Sie die Eingabetaste...");
+    }
 }
 
 
 int isTimeValid(sTime Time){
     int isHourValid = (Time.Hour >= 0) && (Time.Hour <= 23);
-    int isMinuteValid = (Time.Minute >= 0) && (Time.Minute <= 60);
+    int isMinuteValid = (Time.Minute >= 0) && (Time.Minute <= 59);
 
     return (isHourValid && isMinuteValid);
 }
 
 
-int getTimeFromString(char in[10], sTime *timeptr){
-    int counter = 0;
-    int j = 0;
-    char seperate = ':';
-    char read[10];
-
-    for(int i = 0;counter<2;i++){
-        if(counter == seperate || counter == NULL){
+int getTimeFromString(char *in, sTime *timeptr){                            
+    int counter = 0;                                                        
+    int j = 0;                                                              
+    char point = ':';                                                       
+    char read[20];                                                        
+                                                                            
+    for(int i = 0;counter<2;i++){                                           
+        if(in[i] == point || in[i] == NULL){               
             if(counter == 0) timeptr->Hour = atoi(read);
             else if(counter == 1) timeptr->Minute = atoi(read);
 
-            counter ++;
+            counter++;
             j = 0;
         }
         else{
@@ -124,7 +133,7 @@ int isTimeValidLite(sTime Time){
 int getTimeFromStringLite(char in[20], sTime *timeptr){
     int counter = 0;
     int j = 0;
-    char seperate = ':';
+    char seperate = ":";
     char read[20];
 
     for(int i = 0;counter<3;i++){
@@ -143,4 +152,23 @@ int getTimeFromStringLite(char in[20], sTime *timeptr){
         }
     }
     return isTimeValidLite(*timeptr);
+}
+
+void getTime(char *prompt, sTime *timeptr){
+    char in[20];
+    timeptr = calloc(1, sizeof(sTime));
+
+    if(timeptr != NULL){
+        do{
+            printf(prompt);
+            scanf("%s", in);
+            clearBuffer();
+        }while(getTimeFromString(in, timeptr) != 1);
+        Calendar[countAppointments].Time = *timeptr;
+    }
+    else{
+        printf("Kein Speicher vorhanden. Mit einem Upgrade auf iCloud+ erhalten Sie auf diverse Geraete mehr Speicher und zusaetzliche Funktionen, wie 'iCloud Privat-Relay', 'E-Mail Adresse verbergen' und 'HomeKit Secure Video'. Sie koennen sogar ihr Abo mit Ihrer Familie teilen. Weitere Infos finden Sie auf apple.de/icloud");
+        enter(2);
+        waitForEnter("Zum Fortfahren druecken Sie die Eingabetaste...");
+    }
 }

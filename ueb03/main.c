@@ -5,6 +5,10 @@
 #include "menu.h"
 #include "calendar.h"
 
+sAppointment Calendar[MAXAPPOINTMENTS];
+int countAppointments = 0;
+
+
 int main(){
     char *menuTitle[] = {"Termin erstellen", "Termin bearbeiten", "Termin entfernen", "Termin suchen", "Termine sortieren", "Terminne auflisten", "Programm beenden"};
     int menuChoice = 0;
@@ -39,5 +43,6 @@ int main(){
                 waitForEnter("\n\n\n");
         }
     }while(menuChoice != 7);
+    free(Calendar);
     return 0;
 }

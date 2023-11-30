@@ -20,7 +20,7 @@ int isDateValid(sDate date);
  * 'Year' get their values from the input.  */
 int getDateFromString(char in[],sDate *dateptr);
 
-int getDate(char *Text, sDate *dateptr);
+int getDate(char *prompt, sDate *dateptr);
 
 /********************************************
  * Same as 'isDateValid', 'isTimeValid'     
@@ -58,5 +58,5 @@ int isTimeValidLite(sTime time);
 ********************************************/
 int getTimeFromStringLite(char in[],sTime *timeptr);
 
-int getTime(char in[], sTime *timeptr);
+int getTime(char *prompt, sTime *timeptr);
 #endif
