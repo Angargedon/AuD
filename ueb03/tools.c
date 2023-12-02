@@ -49,3 +49,39 @@ void Dog(){
     clearScreen();
     printf("Dog");
 }
+
+int getText(char *Prompt, int Maxlen, char **Text, int AllowEmpty){
+    char *Input;
+    char Format[20];
+    unsigned Len = 0;
+    int ok = 0;
+
+    if((Text == NULL) || (Maxlen == 0)) return 0;
+    
+    *Text = NULL;
+
+    Input = malloc(Maxlen+1);
+    if(Input){
+        sprintf(Format, "%%%i[^\n]", Maxlen);
+        do{
+            printf(Prompt);
+            *Input = '\0';
+            scanf(Format, Input);
+            clearBuffer();
+
+            Len = strlen(Input);
+            if(Len > 0){
+                *Text = malloc(Len + 1);
+                if(*Text){
+                    strcpy(*Text, Input);
+                    ok = 1;
+                }
+            }
+            else if(AllowEmpty) ok = 1;
+        }while(ok != 1);
+
+        free(Input);
+        return 1;
+    }
+    else return 0;
+}

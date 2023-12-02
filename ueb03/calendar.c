@@ -7,6 +7,7 @@
 void createAppointment(){
     sDate Date;
     sTime Time;
+    sAppointment Create;
 
     enter(1);
     printf("Termin erstellen");
@@ -19,6 +20,10 @@ void createAppointment(){
     getTime("Uhrzeit eingeben: ", &Time);
     enter(2);
     printf("Stunde: %i\nMinute: %i\n", Calendar[countAppointments].Time.Hour, Calendar[countAppointments].Time.Minute);
+    enter(2);
+    getText("Terminbeschreibung: ", 100, &(Create.Description), 0);
+    enter(2);
+    printf(Create.Description);
 /*NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCHEN NACHHER LOESCEN*/
     enter(2);
     waitForEnter("Druecken Sie die Eingabetaste...");

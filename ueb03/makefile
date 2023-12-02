@@ -1,6 +1,7 @@
 cc = gcc -Wall -pedantic
 prg = main.exe
 obj = main.o datetime.o tools.o calendar.o menu.o
+CFLAGS += -O0 -g3
 
 $(prg): $(obj)
 	@$(cc) -O0 -g3 -o $@ $^

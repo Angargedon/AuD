@@ -3,7 +3,7 @@
 #include <string.h>
 #include "datastructure.h"
 #include "tools.h"
-
+ 
 sAppointment Calendar[MAXAPPOINTMENTS];
 
 int dayOfWeek(int d, int m, int y){
