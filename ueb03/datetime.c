@@ -91,7 +91,6 @@ int getDate(char *prompt, sDate *dateptr){
             scanf("%s", in);
             clearBuffer();
         }while(getDateFromString(in, dateptr) != 1);
-        Calendar[countAppointments].Date = *dateptr;
         return 1;
     }
     else{
@@ -178,7 +177,6 @@ int getTime(char *prompt, sTime *timeptr){
             scanf("%s", in);
             clearBuffer();
         }while(getTimeFromString(in, timeptr) != 1);
-        Calendar[countAppointments].Time = *timeptr;
         return 1;
     }
     else{
@@ -201,7 +199,6 @@ int getDuration(char *prompt, sTime *timeptr){
             clearBuffer();
             Len = strlen(in);
         }while(!(getTimeFromStringLite(in, timeptr)) && (Len != 0));
-        Calendar[countAppointments].Lenght = timeptr;
         return 1;
     }
     else{

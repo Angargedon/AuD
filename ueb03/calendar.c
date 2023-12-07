@@ -7,20 +7,17 @@
 
 
 void createAppointment(){
-    sAppointment Create;
     int check = 1;
 
     while(check == 1){
         enter(1);
         printf("Termin erstellen");
         enter(2);
-        check = getDate("Datum: ", &(Create.Date));
-        check = getTime("Uhrzeit(Std:Min): ", &(Create.Time));
-        check = getDuration("Dauer(Std:Min:Sek): ", Create.Lenght);
-        check = getText("Terminbeschreibung: ", 100, &(Create.Description), 0);
-        Calendar[countAppointments].Description = Create.Description;
-        check = getText("Ort: ", 15, &(Create.Location), 1);        //getText doesn't save it to the datastructure
-        Calendar[countAppointments].Location = Create.Location;     //so we have to do it afterwards
+        check = getDate("Datum: ", &(Calendar[countAppointments].Date));
+        check = getTime("Uhrzeit(Std:Min): ", &(Calendar[countAppointments].Time));
+        check = getDuration("Dauer(Std:Min:Sek): ", Calendar[countAppointments].Lenght);
+        check = getText("Terminbeschreibung: ", 100, &(Calendar[countAppointments].Description), 0);
+        check = getText("Ort: ", 15, &(Calendar[countAppointments].Location), 1);
         enter(1);
         check = 2;
     }
