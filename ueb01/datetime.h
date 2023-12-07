@@ -1,10 +1,11 @@
-#ifndef DATETIME_H_INCLUDED
-#define DATETIME_H_INCLUDED
+#ifndef DATETIME_H
+#define DATETIME_H
+#include "datastructure.h"
 
-int isLeapYear(int Year);
+int isLeapYear(int year);
 
-int isDateValid(sDate Date);
+int isDateValid(int Month);
 
-int getDateFromString(char in[20], sDate *dateptr);
+int getDateFromString(char in[],sDate *dateptr);
 
-#endif // DATETIME_H_INCLUDED
+#endif

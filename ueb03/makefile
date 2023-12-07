@@ -1,24 +1,25 @@
-cc = gcc -Wall
+cc = gcc -Wall -pedantic
 prg = main.exe
-obj = main.o datetime.o tools.o menu.o invoice.o
+obj = main.o datetime.o tools.o calendar.o menu.o
+CFLAGS += -O0 -g3
 
-$(prg):	$(obj)
-	@$(cc) -o $@ $^
+$(prg): $(obj)
+	@$(cc) -O0 -g3 -o $@ $^
 
-main.o: main.c tools.h datastructure.h
-	@$(cc) -c $<
-
-datetime.o: datetime.c datastructure.h
-	@$(cc) -c $<
+main.o: main.c menu.h calendar.h
+	@$(cc) -O0 -g3 -c $<
 
 tools.o: tools.c
-	@$(cc) -c $<
+	@$(cc) -O0 -g3 -c $<
 
-menu.o: menu.c tools.h datastructure.h
-	@$(cc) -c $<
+datetime.o: datetime.c
+	@$(cc) -O0 -g3 -c $<
 
-invoice.o: invoice.c tools.h datastructure.h
-	@$(cc) -c $<
+calendar.o: calendar.c tools.h
+	@$(cc) -O0 -g3 -c $<
+
+menu.o: menu.c tools.h
+	@$(cc) -O0 -g3 -c $<
 
 run:
 	@./$(prg)

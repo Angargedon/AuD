@@ -1,5 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+void enter(int howManyTimes){
+    for(int i=0;i<howManyTimes;i++) printf("\n");
+}
+
+void clearScreen(){
+    system("CLS");
+}
 
 void clearBuffer(){
     char dummy;
@@ -7,20 +16,11 @@ void clearBuffer(){
     while(dummy != '\n') scanf("%c", &dummy);
 }
 
-void clearScreen(){
-    system("CLS");
-}
-
-void waitForEnter(){
-    printf("Eingabetaste druecken...");
-    clearBuffer();
-}
-
-int askYesOrNo(char *Question){
+int askYesOrNo(char *question){
     char Input;
 
     do{
-    printf("%s", Question);
+    printf("%s", question);
       scanf("%c", &Input);
       if (Input != '\n')   clearBuffer();
     } while ((Input != 'j') && (Input != 'J') && (Input != 'n') && (Input != 'N'));
@@ -28,14 +28,19 @@ int askYesOrNo(char *Question){
     return ((Input == 'j') || (Input == 'J'));
 }
 
-void enter(int howManyTimes){
-    for(int i=0;i<howManyTimes;i++){
-        printf("\n");
+void waitForEnter(char *text){
+    printf("%s", text);
+    clearBuffer();
+}
+
+void printLine(char look, int lenght){
+    for(int i=0; i<lenght; i++){
+        printf("%c", look);
     }
 }
 
-void printLine(char look, int howManyTimes){
-    for(int i=0;i<howManyTimes;i++){
-        printf("%c", look);
-    }
+void title(char *name, char line){
+    printf("%s", name);
+    enter(1);
+    printLine(line, strlen(name));
 }

@@ -2,110 +2,94 @@
 #include <stdlib.h>
 #include <string.h>
 
+void enter(int howManyTimes){
+    for(int i=0;i<howManyTimes;i++) printf("\n");
+}
+
+
+void clearScreen(){
+    system("CLS");
+}
+
+
 void clearBuffer(){
     char dummy;
 
     while(dummy != '\n') scanf("%c", &dummy);
 }
 
-void clearScreen(){
-    system("CLS");
-}
 
-void waitForEnter(){
-    printf("Eingabetaste druecken...");
-    clearBuffer();
-}
-
-int askYesOrNo(char *Question){
+int askYesOrNo(char *question){
     char Input;
 
     do{
-    printf("%s", Question);
+    printf("%s", question);
       scanf("%c", &Input);
       if (Input != '\n')   clearBuffer();
-    } while ((Input != 'j') && (Input != 'J') && (Input != 'n') && (Input != 'N'));
+    }while ((Input != 'j') && (Input != 'J') && (Input != 'Y') && (Input != 'y') && (Input != 'n') && (Input != 'N'));
 
-    return ((Input == 'j') || (Input == 'J'));
+    return ((Input == 'j') || (Input == 'J') || (Input == 'Y') || (Input == 'y'));
 }
 
-void enter(int howManyTimes){
-    for(int i=0;i<howManyTimes;i++){
-        printf("\n");
-    }
+
+void waitForEnter(char *text){
+    printf("%s", text);
+    clearBuffer();
 }
 
-void printLine(char look, int howManyTimes){
-    for(int i=0;i<howManyTimes;i++){
+
+void printLine(char look, int lenght){
+    for(int i=0; i<lenght; i++){
         printf("%c", look);
     }
 }
 
-int getText(char* Text, int Maxlen, char** P, int AllowEmpt){
-    char* In = NULL;
-    char Format[15];
-    int Ok;
-    int Lenght;
 
-    if(Maxlen <= 0)
-        return 0;
-    if(P == NULL)
-        return 0;
-    *P = NULL;
-    In = malloc(Maxlen + 1);
+void title(char *name, char line){
+    printf("%s", name);
+    enter(1);
+    printLine(line, strlen(name));
+}
 
-    if(In){
-        sprintf(Format, "%%%[^\n]", Maxlen);
+
+void Dog(){
+    clearScreen();
+    printf("Dog");
+}
+
+
+int getText(char *Prompt, int Maxlen, char **Text, int AllowEmpty){
+    char *Input;
+    char Format[20];
+    unsigned Len = 0;
+    int ok = 0;
+
+    if((Text == NULL) || (Maxlen == 0)) return 0;
+    
+    *Text = NULL;
+
+    Input = malloc(Maxlen+1);
+    if(Input){
+        sprintf(Format, "%%%i[^\n]", Maxlen);
         do{
-            printf(Text);
-            *In = '\0';
-            Ok = scanf(Format, In);
+            printf(Prompt);
+            *Input = '\0';
+            scanf(Format, Input);
             clearBuffer();
-            Lenght = (int)strlen(In);
 
-            if(Lenght > 0){
-                *P = calloc(Lenght+1, sizeof(char));
-                if(*P == NULL){
-                    free(In);
-                    return 0;
+            Len = strlen(Input);
+            if(Len > 0){
+                *Text = malloc(Len + 1);
+                if(*Text){
+                    strcpy(*Text, Input);
+                    ok = 1;
                 }
-                strcpy(*P, In);
             }
-            else if(AllowEmpt){
-                free(In);
-                return 2;
-            }
-            else
-                Ok = 0;
-        }while(!Ok);
+            else if(AllowEmpty) ok = 1;
+        }while(ok != 1);
 
-        free(In);
+        free(Input);
         return 1;
     }
-    return 0;
-}
-
-int getNumber(char* Text, int* In, int BorderA, int BorderB){
-    int x;
-
-    if(In == 0)
-        return 0;
-    if(BorderA > BorderB)
-        return 0;
-    do{
-        printf(Text);
-        x = scanf("%i[^\n]", In);
-        clearBuffer();
-    }while(!x || *In < BorderA ||*In > BorderB);
-    return 1;
-}
-
-void getFloat(char *Text, float *In){
-    int x;
-
-    do{
-        printf(Text);
-        x = scanf("%f", In);
-        clearBuffer();
-    }while(!x ||*In < 0);
+    else return 0;
 }

@@ -1,5 +1,5 @@
-#ifndef DATASTRUCTURE_H_INCLUDED
-#define DATASTRUCTURE_H_INCLUDED
+#ifndef DATASTRUCTURE_H
+#define DATASTRUCTURE_H
 
 typedef struct{
     int Day;
@@ -7,4 +7,4 @@ typedef struct{
     int Year;
 } sDate;
 
-#endif // DATASTRUCTURE_H_INCLUDED
+#endif

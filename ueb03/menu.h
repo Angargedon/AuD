@@ -1,14 +1,18 @@
-#ifndef MENU_H_INCLUDED
-#define MENU_H_INCLUDED
+#ifndef MENU_H
+#define MENU_H
 
-/*****************************************
-*Prints the menu. Just enter the menu    *
-*title first. The second argument are the*
-*menupoints, which you should declare    *
-*already as an array of menupoint titles *
-*and the third argument is the amount of *
-*the menupoints                          *
-*****************************************/
-int getMenu(char title[], char* entries[], int entryCount);
+/*********************************************
+ * Uses 'tools.h' to create a menutitle and  
+ * creates the menuPoints. 'char *title' is  
+ * the headline, while                       
+ * 'char *menuPointTitles[]' are the names of
+ * every menupoints(should be a array with   
+ * every menupointname as a element) and     
+ * 'int menuPoints' being the amount of the  
+ * menuPoints (Should be the same amount as  
+ * the amount of elements in                 
+ * 'char *menuPointTitles[]'                 
+*********************************************/
+int getMenu(char *title, char *menuPointTitles[], int menuPoints);
 
-#endif // MENU_H_INCLUDED
+#endif

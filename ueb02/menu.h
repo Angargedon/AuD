@@ -1,14 +1,6 @@
-#ifndef MENU_H_INCLUDED
-#define MENU_H_INCLUDED
+#ifndef MENU_H
+#define MENU_H
 
-/*****************************************
-*Prints the menu. Just enter the menu    *
-*title first. The second argument are the*
-*menupoints, which you should declare    *
-*already as an array of menupoint titles *
-*and the third argument is the amount of *
-*the menupoints                          *
-*****************************************/
-int getMenu(char title[], char* entries[], int entryCount);
+int getMenu(char *title, char *menuPointTitles[], int menuPoints);
 
-#endif // MENU_H_INCLUDED
+#endif

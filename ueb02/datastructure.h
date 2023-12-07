@@ -1,35 +1,31 @@
-#ifndef DATASTRUCTURE_H_INCLUDED
-#define DATASTRUCTURE_H_INCLUDED
+#ifndef DATASTRUCTURE_H
+#define DATASTRUCTURE_H
 
-#define MAXARTICLE 20
-#define MAXINVOICES 10
+enum eDayOfWeek{NotADay, Mo, Di, Mi, Do, Fr, Sa, So};
+
+#define MAXAPPOINTMENTS 100
 
 typedef struct{
     int Day;
     int Month;
     int Year;
+    int eDayOfWeek;
 } sDate;
 
-typedef enum {NoTax, HalfTax, FullTax} KindOFTaxes;
+typedef struct{
+    int Hour;
+    int Minute;
+    int Second;
+}sTime;
 
 typedef struct{
-    char *Description;
-    float Amount;
-    float NetPricePerUnit;
-    KindOFTaxes Tax;
-}sArticle;
-
-typedef struct{
-    char *Costumer;
     sDate Date;
-    int ArticleCounter;
-    sArticle Article[MAXARTICLE];
-    float SumNetPrice;
-    float SumTax;
-    float SumGrossPrice;
-}sInvoice;
+    sTime Time;
+    char *Description;
+    sTime Lenght;
+}sAppointment;
 
-extern int InvoiceCounter;
-extern sInvoice Invoices[];
+int countAppointments;
+sAppointment Calendar[MAXAPPOINTMENTS];
 
-#endif // DATASTRUCTURE_H_INCLUDED
+#endif

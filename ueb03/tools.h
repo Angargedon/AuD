@@ -1,71 +1,68 @@
-#ifndef TOOLS_H_INCLUDED
-#define TOOLS_H_INCLUDED
+#ifndef TOOLS_H
+#define TOOLS_H
 
-/********************************
-*Clears the input buffer for the*
-*case that a user makes an      *
-*unnessesary input              *
-********************************/
-void clearBuffer();
-
-/********************************
-*Clears the screen.. Oviously   *
-********************************/
-void clearScreen();
-
-/********************************
-*Tells the user to press enter  *
-*and only continues if the user *
-*do so                          *
-********************************/
-void waitForEnter();
-
-/********************************
-*The argument is a yes-or-no    *
-*question you ask the user.     *
-*The user has to answer with    *
-*'y'/'Y'/'j'/'J' for 'yes' or   *
-*'n'/'N' for 'no'. The return   *
-*value is actually a truth value*
-*with '0' for 'no' and '1' for  *
-*'yes                           *
-********************************/
-int askYesOrNo(char *Quastion);
-
-/********************************
-*Prints an '\n' aka enter so you*
-*don't have to. The argument    *
-*is the amount of times you want*
-*to print enter/'\n'            *
-********************************/
+/*
+ * Enter function that replaces the
+ * 'backslash n'. Great use for greater
+ * amounts of 'backslash n' and
+ * structured code           
+*/
 void enter(int howManyTimes);
 
-/*****************************
-*Prints a line with the first*
-*argument being the symbol of*
-*which gets printed as a line*
-*while the second argument is*
-*how long the line should be *
-*****************************/
-void printLine(char look, int howManyTimes);
+/*
+ * Uses the "CLS" Windows shell       
+ * command to clear your terminal     
+ * screen                             
+*/
+void clearScreen();
 
-/***********************************
-*Prints a text, which you set in   *
-*the first argument and scans the  *
-*input of the user. It also uses   *
-*malloc to pre-order some memory   *
-*for the user input, which will get*
-*saved in what ever the argument   *
-*for P is. Maxlen is obviously the *
-*maximum lenght of the user input. *
-*AllowEmpt has to be a boolean     *
-*value which tells if a empty input*
-*is allowed or not.                *
-************************************/
-int getText(char* Text, int Maxlen, char** P, int AllowEmpt);
+/*
+ * Should be used after every 'scanf' 
+ * to wipe out potential input buffers    
+*/
+void clearBuffer();
 
-int getNumber(char* Text, int* In, int BorderA, int BorderB);
+/*
+ * Question can be asked where the    
+ * user should only anser yes 'y' or  
+ * no 'n'. 'j' for german language    
+ * included                           
+*/
+int askYesOrNo(char *question);
 
-void getFloat(char *Text, float *In);
+/*
+ * Text appears that usually tells the
+ * user to press enter and waits unti 
+ * enter is pressed                   
+*/
+void waitForEnter(char *text);
 
-#endif // TOOLS_H_INCLUDED
+void printLine(char look, int lenght);
+
+/*
+ * Prints a title text ('char *name')  
+ * and puts an underline ('char line')
+ * to it. The underline has the same  
+ * lenght as the title. Can also be   
+ * used as simple highlight instead   
+ * of a title                         
+*/
+void title(char *name, char line);
+
+//Dog
+void Dog();
+
+/*
+ * 'char *Prompt' is the Text that will appear to
+ * tell the user that he should enter/type something.
+ * 'int Maxlen' is the maximum lenght of the user
+ * input.
+ * 'char **Text' is a pointer to the string in which
+ * the user input get's saved.
+ * 'AllowEmpty' is a truth value:
+ *      - set 1 to allow the input to be empty.
+ *      - set 0 to dencline the input to be empty.
+*/
+int getText(char *Prompt, int MaxLen, char **Text, int AllowEmpty);
+
+#endif

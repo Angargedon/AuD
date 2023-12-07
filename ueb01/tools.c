@@ -1,35 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void clearBuffer(){
-    char dummy;
-
-    while(dummy != '\n') scanf("%c", &dummy);
+void enter(int howManyTimes){
+    for(int i=0;i<howManyTimes;i++) printf("\n");
 }
 
 void clearScreen(){
     system("CLS");
 }
 
-void waitForEnter(){
-    printf("Eingabetaste druecken...");
-    clearBuffer();
+void clearBuffer(){
+    char dummy;
+
+    while(dummy != '\n') scanf("%c", &dummy);
 }
 
-int askYesOrNo(char *Question){
+int askYesOrNo(char *question){
     char Input;
 
     do{
-    printf("%s", Question);
+    printf("%s", question);
       scanf("%c", &Input);
       if (Input != '\n')   clearBuffer();
     } while ((Input != 'j') && (Input != 'J') && (Input != 'n') && (Input != 'N'));
 
     return ((Input == 'j') || (Input == 'J'));
-}
-
-void enter(int howManyTimes){
-    for(int i=0;i<howManyTimes;i++){
-        printf("\n");
-    }
 }
