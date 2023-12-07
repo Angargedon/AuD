@@ -1,12 +1,10 @@
-#ifndef TOOLS_H
-#define TOOLS_H
-
-void enter(int howManyTimes);
-
-void clearScreen();
+#ifndef TOOLS_H_INCLUDED
+#define TOOLS_H_INCLUDED
 
 void clearBuffer();
+void clearScreen();
+void waitForEnter();
+int askYesOrNo(char *Quastion);
+void enter(int howManyTimes);
 
-int askYesOrNo(char *question);
-
-#endif
+#endif // TOOLS_H_INCLUDED

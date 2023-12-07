@@ -1,37 +1,29 @@
 #include <stdio.h>
+#include "datastructure.h"
+#include "datetime.h"
+#include "tools.h"
 #include "menu.h"
-#include "calendar.h"
+#include "invoice.h"
 
 int main(){
-    char *menuTitle[7] = {"Termin erstellen", "Termin bearbeiten", "Termin entfernen", "Termin suchen", "Termine sortieren", "Terminne auflisten", "Programm beenden"};
-    int menuChoice;
+    char title[] = "Rechnungsmanager V0.2";
+    char *menus[6] = {"Neue Rechnung anlegen", "Rechnung loeschen", "Artikel suchen", "Rechnungen sortieren", "Rechnungen auflisten", "Programm beenden"};
 
+    int choosedMenu = 0;
     do{
-        menuChoice = getMenu("ULTIMATIVE TERMINERSTELLUNGSSOFTWARE V0.2", menuTitle, 7);
+        choosedMenu = getMenu(title, menus, 6);
+        switch(choosedMenu){
 
-        switch(menuChoice){
-            case 1:
-                createAppointment();
-                break;
-            case 2:
-                editAppointment();
-                break;
-            case 3:
-                deleteAppointment();
-                break;
-            case 4:
-                searchAppointment();
-                break;
-            case 5:
-                sortCalendar();
-                break;
-            case 6:
-                listCalendar();
-                break;
-            case 7:
-                printf("Programm wird beendet");
+            case 1: createInvoice();break;
+            case 2: deleteInvoice();break;
+            case 3: searchArticle();break;
+            case 4: sortInvoices();break;
+            case 5: listInvoices();break;
+            case 6: break;
         }
-    }while(menuChoice != 7);
+    }while (choosedMenu != 6);
+    printf("Programm wird beendet...");
+    enter(1);
 
     return 0;
 }

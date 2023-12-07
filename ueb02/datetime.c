@@ -1,10 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "datastructure.h"
 
-int isLeapYear(int year){
-    return (((year % 4 == 0) &&  (year % 100 != 0)) || ((year % 100 == 0 && year % 400 == 0)));
-}
+int isLeapYear(int Year){
+    return (((Year % 4 == 0) &&  (Year % 100 != 0)) || (( Year % 100 == 0 && Year % 400 == 0)));        //'%' checks if the first arg/value is
+                                                                                                        //dividable with the second.
+}                                                                                                       //This function checks, if the input year
+                                                                                                        //is a leap year(Schaltjahr).
 
 int isDateValid(sDate Date){
     int isDay;
@@ -33,8 +34,8 @@ int getDateFromString(char in[20], sDate *dateptr){                         //Wh
     int j = 0;                                                              //The for-statement goes as long as the input arrays length is (20).
     char point = '.';                                                       //In this, there is an if-else-statement in which the else-statement
     char read[20];                                                          //has 'read[j]' and 'in[i]'. If there is a '.' or '\n'/'NULL' then
-                                                                            //in the next turn of the for-statement the if-command gets
-    for(int i = 0;counter<3;i++){                                           //turned on and decides by the counter, if the number is the day,
+                                                                            //Then in the next turn of the for-statement the if-command gets
+    for(int i = 0;i<20;i++){                                                //turned on and decides by the counter, if the number is the day,
         if(in[i] == point || in[i] == NULL){                                //the month or the year.
             if(counter == 0) dateptr->Day = atoi(read);                     //For example the input is 1.3.2000, first the 1 gets read by
             else if(counter == 1) dateptr->Month = atoi(read);              //'read[j] = in[i]' in the else-statement. After that the second
@@ -45,7 +46,7 @@ int getDateFromString(char in[20], sDate *dateptr){                         //Wh
         }                                                                   //gets a reset. The value of 'counter' gets added by 1, so that in
         else{                                                               //the next time in that if-statement the value which get read now,
             read[j] = in[i];                                                //can be assigned to the month. And then if the next '.' is reached
-            read[j+1] = '\0';                                               //the if-statement gets repeated but the value assigned to month,
+            read[j+1] = '\n';                                               //the if-statement gets repeated but the value assigned to month,
             j++;                                                            //'counter' again added by 1 so in the next loop where the
         }                                                                   //if-statement comes in action, the new value of 'read' can get
     }                                                                       //assigned to 'Year'.

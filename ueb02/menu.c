@@ -1,24 +1,29 @@
 #include <stdio.h>
+#include "datastructure.h"
 #include "tools.h"
 
-int getMenu(char *menuTitle, char *menuPointTitles[], int menuPoints){
-    int menuPoint;
+int getMenu(char title[],char *entries[],int entryCount){
 
-    clearScreen();
-    title(menuTitle, '=');
-    enter(1);
+    int menuPoint = 0;
 
-    for(int i=1; i<=menuPoints; i++){
-        enter(1);
-        printf("%i. %s", i, menuPointTitles[i-1]);
-    }
-    enter(2);
-
-    printf("Ihre Menupunkt Wahl: ");
     do{
-        scanf("%i", &menuPoint);
+        clearScreen();
+        printf("%s", title);
+        enter(1);
+        printLine('=', 50);
+        enter(2);
+
+        for(int i=0;i<entryCount;i++){
+            printf("%i. %s", i+1, entries[i]);
+            enter(2);
+        }
+
+        printf("Geben Sie einen Menuepunkt zwischen 1 und %i ein: ", entryCount);
+        scanf("%d", &menuPoint);
         clearBuffer();
-    }while(menuPoint < 1 && menuPoint < menuPoints);
+        enter(1);
+
+    }while((menuPoint) < 1 && (menuPoint) > entryCount);
 
     return menuPoint;
 }
