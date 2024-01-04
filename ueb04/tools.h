@@ -23,6 +23,13 @@ void clearScreen();
 void clearBuffer();
 
 /*
+Clears potential input buffer after
+fscanf and should alwqys be used
+after fscanf
+*/
+void fclearBuffer(FILE *file);
+
+/*
  * Question can be asked where the    
  * user should only anser yes 'y' or  
  * no 'n'. 'j' for german language    
@@ -64,5 +71,9 @@ void Dog();
  *      - set 0 to dencline the input to be empty.
 */
 int getText(char *Prompt, int MaxLen, char **Text, int AllowEmpty);
+
+int getMem(char **pPtr, int size);
+
+void freeMem(char **pPtr);
 
 #endif

@@ -91,6 +91,7 @@ int getDate(char *prompt, sDate *dateptr){
             scanf("%s", in);
             clearBuffer();
         }while(getDateFromString(in, dateptr) != 1);
+        Calendar[countAppointments].Date = *dateptr;
         return 1;
     }
     else{

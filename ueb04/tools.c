@@ -19,6 +19,16 @@ void clearBuffer(){
 }
 
 
+void fclearBuffer(FILE *file){
+    char Dummy;
+
+    do{
+        if(feof(file)) break;
+        fscanf(file, "%c", &Dummy);
+    }while(Dummy != '\n');
+}
+
+
 int askYesOrNo(char *question){
     char Input;
 
@@ -92,4 +102,19 @@ int getText(char *Prompt, int Maxlen, char **Text, int AllowEmpty){
         return 1;
     }
     else return 0;
+}
+
+int getMem(char **pPtr, int size){
+    if(pPtr == NULL)
+        return 0;
+
+    pPtr = calloc(size, 1);
+    return (*pPtr != NULL);
+}
+
+void freeMem(char **pPtr){
+    if(pPtr){
+        free(pPtr);
+        pPtr = NULL;
+    }
 }

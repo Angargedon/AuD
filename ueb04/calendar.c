@@ -9,13 +9,14 @@
 
 void createAppointment(){
     int check = 1;
+    sAppointment *Create;
 
     while(check == 1){
         enter(1);
         printf("Termin erstellen");
         enter(2);
-        check = getDate("Datum: ", &(Calendar[countAppointments].Date));
-        check = getTime("Uhrzeit(Std:Min): ", &(Calendar[countAppointments].Time));
+        check = getDate("Datum: ", &(Create->Date));
+        check = getTime("Uhrzeit(Std:Min): ", &(Create->Time));
         check = getDuration("Dauer(Std:Min:Sek): ", &(Calendar[countAppointments].Lenght));
         check = getText("Terminbeschreibung: ", 100, &(Calendar[countAppointments].Description), 0);
         check = getText("Ort: ", 15, &(Calendar[countAppointments].Location), 1);

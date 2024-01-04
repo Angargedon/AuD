@@ -1,1 +1,8 @@
-<Datei>
+<Calendar>
+ <Appointment>
+  <Date>30.04.2001</Date>
+  <Time>00:01</Time>
+  <Description>Angar ist da</Description>
+  <Location>Da</Location>
+ </Appointment> 
+</Calendar>

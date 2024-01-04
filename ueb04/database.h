@@ -3,7 +3,6 @@
 
 int saveAppointment(FILE *Datei, int selectAppointment);
 
-
 int saveCalendar();
 
 int loadCalendar();

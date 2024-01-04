@@ -5,7 +5,6 @@
 #include "datastructure.h"
 #include "tools.h"
  
-sAppointment Calendar[MAXAPPOINTMENTS];
 
 int dayOfWeek(sDate *date){
     static int jMonth[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
@@ -91,6 +90,7 @@ int getDate(char *prompt, sDate *dateptr){
             scanf("%s", in);
             clearBuffer();
         }while(getDateFromString(in, dateptr) != 1);
+        Calendar[countAppointments].Date = *dateptr;
         return 1;
     }
     else{
@@ -163,7 +163,7 @@ int getTimeFromStringLite(char *in, sTime *timeptr){
             read[j+1] = '\0';
             j++;
         }
-        if(in[i] == NULL) return isTimeValid(*timeptr);
+        if(in[i] == NULL) return isTimeValidLite(*timeptr);
     }
 }
 
@@ -177,6 +177,7 @@ int getTime(char *prompt, sTime *timeptr){
             scanf("%s", in);
             clearBuffer();
         }while(getTimeFromString(in, timeptr) != 1);
+        Calendar[countAppointments].Time = *timeptr;
         return 1;
     }
     else{
