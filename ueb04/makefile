@@ -6,7 +6,7 @@ CFLAGS += -O0 -g3
 $(prg): $(obj)
 	@$(cc) -O0 -g3 -o $@ $^
 
-main.o: main.c menu.h calendar.h
+main.o: main.c menu.h calendar.h database.h
 	@$(cc) -O0 -g3 -c $<
 
 tools.o: tools.c

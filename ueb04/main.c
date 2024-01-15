@@ -4,6 +4,7 @@
 #include "tools.h"
 #include "menu.h"
 #include "calendar.h"
+#include "database.h"
 
 sAppointment Calendar[MAXAPPOINTMENTS];
 int countAppointments = 0;
@@ -12,6 +13,7 @@ int countAppointments = 0;
 int main(){
     char *menuTitle[] = {"Termin erstellen", "Termin bearbeiten", "Termin entfernen", "Termin suchen", "Termine sortieren", "Terminne auflisten", "Programm beenden"};
     int menuChoice = 0;
+    loadCalendar();
     
     do{
         menuChoice = getMenu("ULTIMATIVE TERMINERSTELLUNGSSOFTWARE V0.3", menuTitle, 7);

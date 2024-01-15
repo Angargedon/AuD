@@ -12,7 +12,7 @@ void saveAppointment(FILE *Datei, int selectAppointment){
 
     fprintf(Datei, "%s" "%02i.%02i.%04i" "%s" "%s", "  <Date>", Calendar[selectAppointment].Date.Day, Calendar[selectAppointment].Date.Month, Calendar[selectAppointment].Date.Year, "</Date>", "\n");
     fprintf(Datei, "%s" "%02i:%02i" "%s" "%s", "  <Time>", Calendar[selectAppointment].Time.Hour, Calendar[selectAppointment].Time.Minute, "</Time>", "\n");
-    if(Calendar[selectAppointment].Lenght->Hour) fprintf(Datei, "%s" "%02i:%02i:%02i" "%s" "%s", "  <Lenght>", Calendar[selectAppointment].Lenght->Hour, Calendar[selectAppointment].Lenght->Minute, Calendar[selectAppointment].Lenght->Second, "</Lenght>", "\n");
+    if(Calendar[selectAppointment].Lenght) fprintf(Datei, "%s" "%02i:%02i:%02i" "%s" "%s", "  <Lenght>", Calendar[selectAppointment].Lenght->Hour, Calendar[selectAppointment].Lenght->Minute, Calendar[selectAppointment].Lenght->Second, "</Lenght>", "\n");
     fprintf(Datei, "%s" "%s" "%s" "%s", "  <Description>", Calendar[selectAppointment].Description, "</Description>", "\n");
     if(Calendar[selectAppointment].Location) fprintf(Datei, "%s" "%s" "%s" "%s", "  <Location>", Calendar[selectAppointment].Location, "</Location>", "\n");
 
@@ -42,22 +42,82 @@ int saveCalendar(){
 }
 
 
+int loadAppointment(FILE *Datei, int selectAppointment){
+    char row[101];
+    char *ptrRow = row;
+    unsigned len;
+
+    do{
+        fscanf(Datei, "%100[^\n]", row);
+        fclearBuffer(Datei);
+        ptrRow = row;
+        while((*ptrRow == ' ') || (*ptrRow == 9))
+            ptrRow++;
+
+        if(strncmp(ptrRow, "<Date>", 6) == 0){
+            len = strlen(ptrRow + 6) - 7;
+            if(len > 1000)
+                len = 0;
+            if(strncmp(ptrRow+6+len, "</Date>", 7) == 0)
+                getDateFromString(ptrRow+6, &(Calendar[selectAppointment].Date));
+        }
+
+        if(strncmp(ptrRow, "<Time>", 6) == 0){
+            len = strlen(ptrRow + 6) - 7;
+            if(len > 1000)
+                len = 0;
+            if(strncmp(ptrRow+6+len, "</Time>", 7) == 0)
+                getTimeFromString(ptrRow+6, &(Calendar[selectAppointment].Time));
+        }
+
+        if(strncmp(ptrRow, "<Description>", 13) == 0){
+            len = strlen(ptrRow + 13) - 14;
+            if(len > 1000)
+                len = 0;
+            Calendar[selectAppointment].Description = calloc(len+1, sizeof(char));
+            if(Calendar[selectAppointment].Description != NULL)
+                strncpy(Calendar[selectAppointment].Description, ptrRow + 13, len);
+            else
+                return 0;
+        }
+
+        if(strncmp(ptrRow, "<Lenght>", 8) == 0){
+            len = strlen(ptrRow + 8) - 9;
+            if(len > 1000)
+                len = 0;
+            if(strncmp(ptrRow+8+len, "</Lenght>", 9) == 0)
+                getTimeFromStringLite(ptrRow+8, Calendar[selectAppointment].Lenght);
+        }
+
+        if(strncmp(ptrRow, "<Location>", 10) == 0){
+            len = strlen(ptrRow + 10) - 11;
+            if(len > 1000)
+                len = 0;
+            Calendar[selectAppointment].Location = calloc(len+1, sizeof(char));
+            if(Calendar[selectAppointment].Location != NULL)
+                strncpy(Calendar[selectAppointment].Location, ptrRow + 10, len);
+        }
+    }while(strncmp(ptrRow, "</Appointment>", 14));
+
+    return 1;
+}
+
+
 int loadCalendar(){
     char row[101];
     char *ptrRow;
     FILE *Datei = NULL;
 
-    Datei = fopen("A:\\Dokumente\\BHT\\AuD\\ueb04\\calendar.xml", "rt");
+    Datei = fopen("A:\\Dokumente\\BHT\\WiSe2324\\AuD\\ueb04\\calendar.xml", "rt");
     if(Datei){
         do{
             fscanf(Datei, "%100[^\n]", row);
             fclearBuffer(Datei);
             ptrRow = row;
 
-            while((row != " ") || (row != 9))
+            while((*ptrRow == ' ') || (*ptrRow == 9))
                 ptrRow++;
-
-            if(strncmp(ptrRow, "<Appointment>", 13) == 0){
+            if (strncmp (ptrRow, "<Appointment>", 13) == 0) {
                 if(countAppointments < MAXAPPOINTMENTS){
                     loadAppointment(Datei, countAppointments);
                     countAppointments++;
@@ -74,18 +134,4 @@ int loadCalendar(){
         printf("Keine Datenbank gefunden");
         return 0;
     }
-}
-
-
-int loadAppointment(FILE *Datei, int selectAppointment){
-    char row[101];
-    char *ptrRow = row;
-
-    do{
-        fscanf(Datei, "%100[^\n]", row);
-        fclearBuffer(Datei);
-        ptrRow = row;
-        while((*ptrRow == ' ') || (*ptrRow == 9))
-            ptrRow++;
-    }while(strncmp(ptrRow, "</Appointment>", 14));
 }

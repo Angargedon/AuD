@@ -69,25 +69,28 @@ void sortCalendar(){
 }
 
 
-void listAppointment(int i){
+void listAppointment(int i, int withDate){
     char *weekday;
 
-    if(Calendar[i].Date.WeekDay == 0) weekday = "Sonntag";
-    else if(Calendar[i].Date.WeekDay == 1) weekday = "Montag";
-    else if(Calendar[i].Date.WeekDay == 2) weekday = "Dienstag";
-    else if(Calendar[i].Date.WeekDay == 3) weekday = "Mittwoch";
-    else if(Calendar[i].Date.WeekDay == 4) weekday = "Donnerstag";
-    else if(Calendar[i].Date.WeekDay == 5) weekday = "Freitag";
-    else if(Calendar[i].Date.WeekDay == 6) weekday = "Samstag";
-    
-    printLine('=', 100);
-    
-    enter(1);
-    printf("%s, ", weekday);
-    printDate(&(Calendar[i].Date));
-    printf(":");
-    
-    enter(2);
+    if (withDate)
+    {
+        if(Calendar[i].Date.WeekDay == 0) weekday = "Sonntag";
+        else if(Calendar[i].Date.WeekDay == 1) weekday = "Montag";
+        else if(Calendar[i].Date.WeekDay == 2) weekday = "Dienstag";
+        else if(Calendar[i].Date.WeekDay == 3) weekday = "Mittwoch";
+        else if(Calendar[i].Date.WeekDay == 4) weekday = "Donnerstag";
+        else if(Calendar[i].Date.WeekDay == 5) weekday = "Freitag";
+        else if(Calendar[i].Date.WeekDay == 6) weekday = "Samstag";
+        
+        printLine('=', 100);
+        
+        enter(1);
+        printf("%s, ", weekday);
+        printDate(&(Calendar[i].Date));
+        printf(":");
+        enter(2);
+    }
+
     printTime(&(Calendar[i].Time));
     printf("Uhr | ");
 
@@ -105,6 +108,8 @@ void listAppointment(int i){
 
 void listCalendar(){
     int i;
+    sDate prevDate = {0, 0, 0, 0};
+    int withDate;
     #define LISTLENGHT 15
 
     enter(1);
@@ -113,7 +118,10 @@ void listCalendar(){
     for(i = 0; i < countAppointments; i++){
             int count = 0;
 
-        listAppointment(i);
+        withDate = ((Calendar[i].Date.Year != prevDate.Year) || (Calendar[i].Date.Month != prevDate.Month) || (Calendar[i].Date.Day != prevDate.Day));
+        if (withDate)
+            prevDate = Calendar[i].Date;
+        listAppointment(i, withDate);
         count ++;
 
         if(count == LISTLENGHT){
