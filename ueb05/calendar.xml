@@ -1,0 +1,37 @@
+<Calendar>
+ <Appointment>
+  <Date>30.04.2001</Date>
+  <Time>00:00</Time>
+  <Lenght>00:00:00</Lenght>
+  <Description>Angar ist daaaaa</Description>
+  <Location>Daaa</Location>
+ </Appointment> 
+ <Appointment>
+  <Date>01.05.2001</Date>
+  <Time>00:00</Time>
+  <Lenght>00:00:00</Lenght>
+  <Description>Angar war gestern daaaa</Description>
+  <Location>Also daaaaa</Location>
+ </Appointment> 
+ <Appointment>
+  <Date>18.01.2024</Date>
+  <Time>23:00</Time>
+  <Lenght>00:00:00</Lenght>
+  <Description>Einfach schlafen mehr nicht mit keinen reden und so</Description>
+  <Location>Zuhause</Location>
+ </Appointment> 
+ <Appointment>
+  <Date>10.01.2024</Date>
+  <Time>18:00</Time>
+  <Lenght>00:00:00</Lenght>
+  <Description>Mein Stift ist kaputt gegeangen scheisse</Description>
+  <Location>Haus D</Location>
+ </Appointment> 
+ <Appointment>
+  <Date>19.01.2024</Date>
+  <Time>09:00</Time>
+  <Lenght>00:30:00</Lenght>
+  <Description>Fruhstuck</Description>
+  <Location>Haus</Location>
+ </Appointment> 
+</Calendar>
