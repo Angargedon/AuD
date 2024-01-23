@@ -1,0 +1,56 @@
+int getText(char *Prompt, int Maxlen, char *Text, int AllowEmpty){
+	int scanerg;
+	char *input = NULL;
+	char Format[15];
+	int Len;
+	int Erg = 0;
+
+	if(Text == NULL)
+		return 0;
+	if(Maxlen<=0)
+		return 0;
+	
+	*Text = NULL;
+	input = malloc(Maxlen+1);
+	
+	if(input == NULL)
+		return 0;
+	sprintf(Format, "%%%i[1\n]", Maxlen);
+	
+	do{
+		printf(Prompt);
+		scanerg = scanf(Format, input);
+		clearBuffer();
+
+		if(scanerg == 1){
+			len = strlen(input);
+			if(len>0){
+				*Text = calloc(Len+1, sizeof(char));
+				if(*Text){
+					strcpy(*Text, input);
+					Erg = 1;
+				 }
+			}
+			else{
+				if(AllowEmpty)
+					Erg = 1;
+				else
+					scanerg = 0;
+			}
+		}
+		else{
+			if(AllowEmpty){
+				Erg = 1;
+				scanerg = 1;
+			}
+		}
+	}while(scanerg == 0);
+
+	free(input);
+	return Erg;
+}
+
+
+for(int i=0; i<counter; i++){
+	free(Array[i].sub.T);
+}
