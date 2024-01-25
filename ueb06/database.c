@@ -8,19 +8,19 @@
 #include "sort.h"
 #include "list.h"
 
-void saveAppointment(FILE *Datei){
+void saveAppointment(FILE *Datei, sAppointment *saveApp){
 
-    if(Datei == NULL || Calendar == NULL){
+    if(Datei == NULL || saveApp == NULL){
         return;
     }
 
     fprintf(Datei, "%s" "%s", " <Appointment>", "\n");
 
-    fprintf(Datei, "%s" "%02i.%02i.%04i" "%s" "%s", "  <Date>", Calendar->Date.Day, Calendar->Date.Month, Calendar->Date.Year, "</Date>", "\n");
-    fprintf(Datei, "%s" "%02i:%02i" "%s" "%s", "  <Time>", Calendar->Time.Hour, Calendar->Time.Minute, "</Time>", "\n");
-    if(isTimeValidLite(Calendar->Lenght)) fprintf(Datei, "%s" "%02i:%02i:%02i" "%s" "%s", "  <Lenght>", Calendar->Lenght.Hour, Calendar->Lenght.Minute, Calendar->Lenght.Second, "</Lenght>", "\n");
-    fprintf(Datei, "%s" "%s" "%s" "%s", "  <Description>", Calendar->Description, "</Description>", "\n");
-    if(Calendar->Location) fprintf(Datei, "%s" "%s" "%s" "%s", "  <Location>", Calendar->Location, "</Location>", "\n");
+    fprintf(Datei, "%s" "%02i.%02i.%04i" "%s" "%s", "  <Date>", saveApp->Date.Day, saveApp->Date.Month, saveApp->Date.Year, "</Date>", "\n");
+    fprintf(Datei, "%s" "%02i:%02i" "%s" "%s", "  <Time>", saveApp->Time.Hour, saveApp->Time.Minute, "</Time>", "\n");
+    if(isTimeValidLite(saveApp->Lenght)) fprintf(Datei, "%s" "%02i:%02i:%02i" "%s" "%s", "  <Lenght>", saveApp->Lenght.Hour, saveApp->Lenght.Minute, saveApp->Lenght.Second, "</Lenght>", "\n");
+    fprintf(Datei, "%s" "%s" "%s" "%s", "  <Description>", saveApp->Description, "</Description>", "\n");
+    if(saveApp->Location) fprintf(Datei, "%s" "%s" "%s" "%s", "  <Location>", saveApp->Location, "</Location>", "\n");
 
     fprintf(Datei, "%s %s", " </Appointment>", "\n");
 }
@@ -28,15 +28,19 @@ void saveAppointment(FILE *Datei){
 
 int saveCalendar(){
     FILE *Datei = NULL;
+    sAppointment *Save = NULL;
+    sAppointment *End = NULL;
 
     Datei = fopen("A:\\Dokumente\\BHT\\WiSe2324\\AuD\\ueb06\\calendar.xml", "wt");
     if(Datei){
 
-        Calendar = getFirstElement();
+        Save = getFirstElement();
+        End = getLastElement();
+
         fprintf(Datei, "%s" "%s", "<Calendar>", "\n");
-        while(Calendar != Last->Next){
-            saveAppointment(Datei);
-            Calendar = Calendar->Next;
+        while(Save != End->Next){
+            saveAppointment(Datei, Save);
+            Save = Save->Next;
         }
         fprintf(Datei, "%s", "</Calendar>");
         fclose(Datei);
@@ -48,7 +52,7 @@ int saveCalendar(){
 }
 
 
-int loadAppointment(FILE *Datei){
+int loadAppointment(FILE *Datei, sAppointment *loadApp){
     char row[101];
     char *ptrRow = row;
     unsigned len;
@@ -65,7 +69,7 @@ int loadAppointment(FILE *Datei){
             if(len > 1000)
                 len = 0;
             if(strncmp(ptrRow+6+len, "</Date>", 7) == 0)
-                getDateFromString(ptrRow+6, &(Calendar->Date));
+                getDateFromString(ptrRow+6, &(loadApp->Date));
         }
 
         if(strncmp(ptrRow, "<Time>", 6) == 0){
@@ -73,16 +77,16 @@ int loadAppointment(FILE *Datei){
             if(len > 1000)
                 len = 0;
             if(strncmp(ptrRow+6+len, "</Time>", 7) == 0)
-                getTimeFromString(ptrRow+6, &(Calendar->Time));
+                getTimeFromString(ptrRow+6, &(loadApp->Time));
         }
 
         if(strncmp(ptrRow, "<Description>", 13) == 0){
             len = strlen(ptrRow + 13) - 14;
             if(len > 1000)
                 len = 0;
-            Calendar->Description = calloc(len+1, sizeof(char));
-            if(Calendar->Description != NULL)
-                strncpy(Calendar->Description, ptrRow + 13, len);
+            loadApp->Description = calloc(len+1, sizeof(char));
+            if(loadApp->Description != NULL)
+                strncpy(loadApp->Description, ptrRow + 13, len);
             else
                 return 0;
         }
@@ -92,16 +96,16 @@ int loadAppointment(FILE *Datei){
             if(len > 1000)
                 len = 0;
             if(strncmp(ptrRow+8+len, "</Lenght>", 9) == 0)
-                getTimeFromStringLite(ptrRow+8, &(Calendar->Lenght));
+                getTimeFromStringLite(ptrRow+8, &(loadApp->Lenght));
         }
 
         if(strncmp(ptrRow, "<Location>", 10) == 0){
             len = strlen(ptrRow + 10) - 11;
             if(len > 1000)
                 len = 0;
-            Calendar->Location = calloc(len+1, sizeof(char));
-            if(Calendar->Location != NULL)
-                strncpy(Calendar->Location, ptrRow + 10, len);
+            loadApp->Location = calloc(len+1, sizeof(char));
+            if(loadApp->Location != NULL)
+                strncpy(loadApp->Location, ptrRow + 10, len);
         }
     }while(strncmp(ptrRow, "</Appointment>", 14));
 
@@ -113,7 +117,7 @@ int loadCalendar(){
     char row[101];
     char *ptrRow;
     FILE *Datei = NULL;
-    int check = 1;
+    sAppointment *Load = NULL;
 
     Datei = fopen("A:\\Dokumente\\BHT\\WiSe2324\\AuD\\ueb06\\calendar.xml", "rt");
     if(Datei){
@@ -125,11 +129,11 @@ int loadCalendar(){
             while((*ptrRow == ' ') || (*ptrRow == 9))
                 ptrRow++;
             if (strncmp (ptrRow, "<Appointment>", 13) == 0) {
-                Calendar = malloc(sizeof(sAppointment));
-                if(Calendar){
-                    loadAppointment(Datei);
-                    insertInDList(Calendar, sort_DateTime);
-                    Calendar = Calendar->Next;
+                Load = malloc(sizeof(sAppointment));
+                if(Load){
+                    loadAppointment(Datei, Load);
+                    insertInDList(Load, sort_DateTime);
+                    Load = Load->Next;
                 }
             }
             if(feof(Datei))

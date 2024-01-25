@@ -10,24 +10,26 @@
 #include "list.h"
 
 void createAppointment(){
-    int check = 1;
+    int check = 0;
 
     sAppointment *Create = malloc(sizeof(sAppointment));
     if(Create != NULL){
-        while(check == 1){
-            enter(1);
-            printf("Termin erstellen");
-            enter(2);
-            check = getDate("Datum: ", &(Create->Date));
-            check = getTime("Uhrzeit(Std:Min): ", &(Create->Time));
-            check = getDuration("Dauer(Std:Min:Sek): ", &(Create->Lenght));
-            check = getText("Terminbeschreibung: ", 100, &(Create->Description), 0);
-            check = getText("Ort: ", 15, &(Create->Location), 1);
-            enter(1);
-            check = 2;
+        enter(1);
+        printf("Termin erstellen");
+        enter(2);
+        if(getDate("Datum: ", &(Create->Date))){
+            if(getTime("Uhrzeit[Std:Min]: ", &(Create->Time))){
+                if(getDuration("Dauer[Std:Min:Sek]: ", &Create->Lenght)){
+                    if(getText("Terminbeschreibung: ", 100, &Create->Description, 0)){
+                        if(getText("Ort: ", 15, &Create->Location, 1))
+                            check = 1;
+                    }
+                }
+            }
         }
+        enter(1);
     
-        if(check == 2){
+        if(check == 1){
             insertInDList(Create, sort_DateTime);
             check = saveCalendar();
             if(check == 1){
@@ -44,12 +46,13 @@ void createAppointment(){
             enter(1);
             waitForEnter("Eingabetaste zum Fortfahren druecken..");
         }
-        free(Create);
+        //free(Create);
     }
     else{
+    //    free(Create);
         printf("Speichern nicht moeglich. Mit einem Upgrade auf iCloud+ erhalten Sie auf diverse Geraete mehr Speicher und zusaetzliche Funktionen, wie 'iCloud Privat-Relay', 'E-Mail Adresse verbergen' und 'HomeKit Secure Video'.\nSie koennen sogar ihr Abo mit Ihrer Familie teilen. Weitere Infos finden Sie auf apple.de/icloud");
-            enter(1);
-            waitForEnter("Eingabetaste zum Fortfahren druecken..");
+        enter(1);
+        waitForEnter("Eingabetaste zum Fortfahren druecken..");
     }
 }
 
@@ -58,15 +61,67 @@ void editAppointment(){
     enter(1);
     printf("Termin bearbeiten");
     enter(2);
-    waitForEnter("Druecken Sie die Eingabetaste...");
+    waitForEnter("Druecken Sie die Eingabetaste..");
 }
 
 
 void deleteAppointment(){
-    enter(1);
+    clearScreen();
+    sAppointment *Delete = NULL;
+    sAppointment *Check = NULL;
+    int i = 0;
+    int chooseID = 0;
+    char *weekday = NULL;
+
     printf("Termin entfernen");
     enter(2);
-    waitForEnter("Druecken Sie die Eingabetaste...");
+    Delete = getFirstElement();
+    
+    while(Delete != NULL){
+        if(Delete->Date.WeekDay == 0) weekday = "Sonntag";
+        else if(Delete->Date.WeekDay == 1) weekday = "Montag";
+        else if(Delete->Date.WeekDay == 2) weekday = "Dienstag";
+        else if(Delete->Date.WeekDay == 3) weekday = "Mittwoch";
+        else if(Delete->Date.WeekDay == 4) weekday = "Donnerstag";
+        else if(Delete->Date.WeekDay == 5) weekday = "Freitag";
+        else if(Delete->Date.WeekDay == 6) weekday = "Samstag";
+        i++;
+        Delete->ID = i;
+
+        printf("%i. %s, ", Delete->ID, weekday);
+        printDate(&(Delete->Date));        
+        printf(" | ");
+        printTime(&(Delete->Time));
+        printf("Uhr| %s", Delete->Description);
+        if(Delete->Location)
+            printf(" in %s", Delete->Location);
+
+        Delete = Delete->Next;
+        enter(1);
+    }
+    enter(1);
+
+    Delete = getFirstElement();
+    Check = getLastElement();
+
+    do{
+    printf("Waehlen Sie den zu loeschenden Termin aus('0' fuer Abbruch auswaehlen): ");
+    scanf("%i", &chooseID);
+    clearBuffer();
+    }while(chooseID < 0 && chooseID > Check->ID);
+
+    if(chooseID != 0){
+        while(Delete != NULL){
+            if(Delete->ID == chooseID){
+                free(removeFromDList(Delete, sort_DateTime));
+                saveCalendar();
+                break;
+            }
+            else
+                Delete = Delete->Next;
+        }
+    waitForEnter("Druecken Sie die Eingabetaste..");
+    }
 }
 
 
@@ -74,16 +129,16 @@ void searchAppointment(){
     enter(1);
     printf("Termin suchen");
     enter(2);
-    waitForEnter("Druecken Sie die Eingabetaste...");
+    waitForEnter("Druecken Sie die Eingabetaste..");
 }
 
 
 
 void listAppointment(sAppointment *List, int withDate){
-    char *weekday;
+    char *weekday = NULL;
     sTime endTime = addTime(&(List->Time), &(List->Lenght));
 
-    if (withDate)
+    if(withDate)
     {
         if(List->Date.WeekDay == 0) weekday = "Sonntag";
         else if(List->Date.WeekDay == 1) weekday = "Montag";
@@ -120,36 +175,37 @@ void listAppointment(sAppointment *List, int withDate){
 
 
 void listCalendar(){
-    sDate prevDate = {0, 0, 0, 0};
-    int withDate;
     sAppointment *List = NULL;
-    #define LISTLENGHT 15
+    int withDate;
+    int counter = 0;
 
     List = getFirstElement();
+
+    clearScreen();
+
     if(List == NULL){
-        if(askYesOrNo("Keine Termine vorhanden. Neuen Termin erstellen?[j/n]: "))
+        if(askYesOrNo("Keine Termine vorhanden. Termin erstellen?[j/n]: "))
             createAppointment();
     }
     else{
-        enter(1);
-        title("Kalender auflisten", '-');
-        enter(2);
-        while(List){
-                int count = 0;
+        sAppointment *prev = NULL;
 
-            withDate = ((List->Date.Year != prevDate.Year) || (List->Date.Month != prevDate.Month) || (List->Date.Day != prevDate.Day));
-            if (withDate)
-                prevDate = List->Date;
+        withDate = (prev == NULL || (List->Date.Day != prev->Date.Day || List->Date.Month != prev->Date.Month || List->Date.Year != prev->Date.Year));
+        listAppointment(List, withDate);
+        prev = List;
+        List = List->Next;
+
+        while(List != NULL){
+            withDate = (prev == NULL || (List->Date.Day != prev->Date.Day || List->Date.Month != prev->Date.Month || List->Date.Year != prev->Date.Year));
             listAppointment(List, withDate);
-            count ++;
+            prev = List;
             List = List->Next;
-
-            if(count == LISTLENGHT){
-                waitForEnter("Druecken Sie die Eingabetase...");
-                count = 0;
+            if(counter >= 15){
+                waitForEnter("Druecken Sie die Eingabetaste fuer die naechste Seite..");
             }
         }
-        enter(1);
-        waitForEnter("Druecken Sie die Eingabetaste...");
+
+        enter(2);
+        waitForEnter("Druecken sie zum Fortfahren die Eingabetaste..");
     }
 }

@@ -105,10 +105,10 @@ int getText(char *Prompt, int Maxlen, char **Text, int AllowEmpty){
 }
 
 int getMem(char **pPtr, int size){
+    pPtr = calloc(size, 1);   
     if(pPtr == NULL)
         return 0;
 
-    pPtr = calloc(size, 1);
     return (*pPtr != NULL);
 }
 

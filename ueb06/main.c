@@ -6,15 +6,15 @@
 #include "calendar.h"
 #include "database.h"
 
-sAppointment *First = NULL, *Last = NULL, *Calendar = NULL;
 
 int main(){
-    char *menuTitle[] = {"Termin erstellen", "Termin bearbeiten", "Termin entfernen", "Termin suchen", "Terminne auflisten", "Programm beenden"};
     int menuChoice = 0;
     loadCalendar();
     
     do{
+        char *menuTitle[] = {"Termin erstellen", "Termin bearbeiten", "Termin entfernen", "Termin suchen", "Terminne auflisten", "Programm beenden"};
         menuChoice = getMenu("ULTIMATIVE TERMINERSTELLUNGSSOFTWARE V0.3", menuTitle, 6);
+
 
         switch(menuChoice){
             case 1:
@@ -40,6 +40,5 @@ int main(){
                 waitForEnter("\n\n\n");
         }
     }while(menuChoice != 6);
-    free(Calendar);
     return 0;
 }

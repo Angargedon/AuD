@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "datastructure.h"
+#include "sort.h"
 
+sAppointment *First = NULL, *Last = NULL;
 
 void insertInDList(sAppointment *New, int (*compare) (sAppointment *, sAppointment *)){
     sAppointment *tmp = First;
@@ -10,11 +12,11 @@ void insertInDList(sAppointment *New, int (*compare) (sAppointment *, sAppointme
         if(First == NULL){
             First = Last = New;
         }
-        else if(compare(First, New) <= 0){
+        else if(compare(First, New) >= 0){
             New->Next = First;
             First = First->Prev = New;
         }
-        else if(compare(Last, New) >= 0){
+        else if(compare(Last, New) <= 0){
             New->Prev = Last;
             Last = Last->Next = New;
         }
@@ -24,6 +26,7 @@ void insertInDList(sAppointment *New, int (*compare) (sAppointment *, sAppointme
                     New->Prev = tmp;
                     New->Next = tmp->Next;
                     tmp->Next = tmp->Next->Prev = New;
+                    break;
                 }
                 tmp = tmp->Next;
             }
@@ -75,3 +78,12 @@ sAppointment *getFirstElement(){
 sAppointment *getLastElement(){
     return Last;
 }
+
+
+/*void removeTheFuckingDList(){
+    sAppointment *remove;
+    remove = getFirstElement();
+    while(removeFromDList(remove, sort_DateTime)){
+        remove = remove->Next;
+    }
+}*/

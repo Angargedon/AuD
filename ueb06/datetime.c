@@ -82,26 +82,19 @@ int getDateFromString(char *in, sDate *dateptr){
 
 
 
-int getDate(char *prompt, sDate **dateptr){
+int getDate(char *prompt, sDate *date){
     char in[20];
-    sDate tmp;
 
+    
     do{
         printf(prompt);
         scanf("%s", in);
         clearBuffer();
-    }while(getDateFromString(in, &tmp) != 1);
-    if(getMem((int **) dateptr, sizeof(sDate))){
-        **dateptr = tmp;
-        return 1;
-    }
-    else{
-        printf("Kein Speicher vorhanden. Mit einem Upgrade auf iCloud+ erhalten Sie auf diverse Geraete mehr Speicher und zusaetzliche Funktionen, wie 'iCloud Privat-Relay', 'E-Mail Adresse verbergen' und 'HomeKit Secure Video'. Sie koennen sogar ihr Abo mit Ihrer Familie teilen. Weitere Infos finden Sie auf apple.de/icloud");
-        enter(2);
-        waitForEnter("Zum Fortfahren druecken Sie die Eingabetaste...");
-        return 0;
-    }
+    }while(getDateFromString(in, date) != 1);
+
+    return 1;
 }
+
 
 
 int isTimeValid(sTime Time){
@@ -170,47 +163,33 @@ int getTimeFromStringLite(char *in, sTime *timeptr){
 }
 
 
-int getTime(char *prompt, sTime **timeptr){
+int getTime(char *prompt, sTime *time){
     char in[20];
-    *timeptr = calloc(1, sizeof(sTime));
 
-    if(timeptr != NULL){
-        do{
-            printf(prompt);
-            scanf("%s", in);
-            clearBuffer();
-        }while(getTimeFromString(in, *timeptr) != 1);
-        return 1;
-    }
-    else{
-        printf("Kein Speicher vorhanden. Mit einem Upgrade auf iCloud+ erhalten Sie auf diverse Geraete mehr Speicher und zusaetzliche Funktionen, wie 'iCloud Privat-Relay', 'E-Mail Adresse verbergen' und 'HomeKit Secure Video'. Sie koennen sogar ihr Abo mit Ihrer Familie teilen. Weitere Infos finden Sie auf apple.de/icloud");
-        enter(2);
-        waitForEnter("Zum Fortfahren druecken Sie die Eingabetaste...");
-        return 0;
-    }
+
+    do{
+        printf(prompt);
+        scanf("%s", in);
+        clearBuffer();
+    }while(getTimeFromString(in, time) != 1);
+
+    return 1;
 }
 
 
-int getDuration(char *prompt, sTime **timeptr){
+
+int getDuration(char *prompt, sTime *time){
     char in[20];
     int Len;
-    *timeptr = calloc(1, sizeof(sTime));
 
-    if(timeptr != NULL){
-        do{
-            printf(prompt);
-            scanf("%[^\n]", in);
-            clearBuffer();
-            Len = strlen(in);
-        }while(!(getTimeFromStringLite(in, *timeptr)) && (Len != 0));
-        return 1;
-    }
-    else{
-        printf("Kein Speicher vorhanden. Mit einem Upgrade auf iCloud+ erhalten Sie auf diverse Geraete mehr Speicher und zusaetzliche Funktionen, wie 'iCloud Privat-Relay', 'E-Mail Adresse verbergen' und 'HomeKit Secure Video'. Sie koennen sogar ihr Abo mit Ihrer Familie teilen. Weitere Infos finden Sie auf apple.de/icloud");
-        enter(2);
-        waitForEnter("Zum Fortfahren druecken Sie die Eingabetaste...");
-        return 0;
-    }
+    do{
+        printf(prompt);
+        scanf("%[^\n]", in);
+        clearBuffer();
+        Len = strlen(in);
+    }while(!(getTimeFromStringLite(in, time)) && (Len != 0));
+
+    return 1;
 }
 
 

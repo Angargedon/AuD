@@ -13,12 +13,7 @@ int sort_DateTime(sAppointment *A1, sAppointment *A2){
                 if(A1->Time.Hour - A2->Time.Hour == 0)
                 {
                     if(A1->Time.Minute - A2->Time.Minute == 0)
-                    {
-                        if(A1->Time.Second - A2->Time.Second == 0)
-                            return 0;
-                        else
-                            return A1->Time.Second - A2->Time.Second;
-                    }
+                        return 0;
                     else
                         return A1->Time.Minute - A2->Time.Minute;
                 }
@@ -37,46 +32,10 @@ int sort_DateTime(sAppointment *A1, sAppointment *A2){
 }
 
 
-int sort_Description(sAppointment *A1, sAppointment *A2){
-    return strcmp(A1->Description, A2->Description);
-}
-
-
-int sort_Location(sAppointment *A1, sAppointment *A2){
-    if (A1->Location == A2->Location)
-        return 0;
-    else if(A1->Location == NULL)
-        return 1;
-    else if (A2->Location == NULL)
-        return -1;
-    else
-        return strcmp(A1->Location, A2->Location);
-}
-
-
-int sort_Duration(sAppointment *A1, sAppointment *A2){
-    if(A1->Lenght.Hour - A2->Lenght.Hour == 0)
-    {
-        if(A1->Lenght.Minute - A2->Lenght.Minute == 0)
-        {
-            if(A1->Lenght.Second - A2->Lenght.Second == 0)
-                return 0;
-            else
-                return A1->Lenght.Second - A2->Lenght.Second;
-        }
-        else
-            return A1->Lenght.Minute - A2->Lenght.Minute;
-    }
-    else
-        return A1->Lenght.Hour - A2->Lenght.Hour;
-}
-
-
 void swapAppointment(sAppointment *e1, sAppointment *e2)
 {
     sAppointment temp;
 
-    //temp = *e1;
     temp.Date.Day = e1->Date.Day;
     temp.Date.Month = e1->Date.Month;
     temp.Date.Year = e1->Date.Year;
@@ -94,7 +53,6 @@ void swapAppointment(sAppointment *e1, sAppointment *e2)
 
     temp.Location = e1->Location;
 
-    //*e1 = *e2;
     e1->Date.Day = e2->Date.Day;
     e1->Date.Month = e2->Date.Month;
     e1->Date.Year = e2->Date.Year;
@@ -112,7 +70,6 @@ void swapAppointment(sAppointment *e1, sAppointment *e2)
 
     e1->Location = e2->Location;
     
-    //*e2 = temp;
     e2->Date.Day = temp.Date.Day;
     e2->Date.Month = temp.Date.Month;
     e2->Date.Year = temp.Date.Year;

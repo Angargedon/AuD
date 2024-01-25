@@ -37,7 +37,7 @@ does not work. After that the 'sDate *dateptr' values
 are heading over to the 'Calendar[countAppointments].Time'
 value.
 */
-int getDate(char *prompt, sDate **dateptr);
+int getDate(char *prompt, sDate *dateptr);
 
 /*
  * Same as 'isDateValid', 'isTimeValid'     

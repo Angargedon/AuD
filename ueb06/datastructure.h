@@ -26,8 +26,9 @@ typedef struct sALE{
     sTime Lenght;
     struct sALE *Next;
     struct sALE *Prev;
+    int ID;
 }sAppointment;
 
-extern sAppointment *First, *Last, *Calendar;
+extern sAppointment *First, *Last;
 
 #endif
