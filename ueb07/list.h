@@ -15,7 +15,7 @@ sAppointment *getFirstElement();
 sAppointment *getLastElement();
 
 
-int appendInSList(sAppointment *newApp);
+int appendInSList(sListEntry *newApp);
 
 
 sListEntry *removeFromSList(sAppointment *remApp);

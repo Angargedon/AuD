@@ -2,7 +2,8 @@
  <Appointment>
   <Date>30.04.2001</Date>
   <Time>00:00</Time>
-  <Lenght>23:59:00</Lenght>
-  <Description>Angar</Description>
+  <Lenght>00:00:00</Lenght>
+  <Description>Angargedon</Description>
+  <Location>Hier und da</Location>
  </Appointment> 
 </Calendar>

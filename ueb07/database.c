@@ -117,7 +117,7 @@ int loadCalendar(){
     char row[101];
     char *ptrRow;
     FILE *Datei = NULL;
-    sAppointment *Load = NULL;
+    sListEntry *Load = NULL;
 
     Datei = fopen("A:\\Dokumente\\BHT\\WiSe2324\\AuD\\ueb07\\calendar.xml", "rt");
     if(Datei){
@@ -129,10 +129,11 @@ int loadCalendar(){
             while((*ptrRow == ' ') || (*ptrRow == 9))
                 ptrRow++;
             if (strncmp (ptrRow, "<Appointment>", 13) == 0) {
-                Load = malloc(sizeof(sAppointment));
+                Load = malloc(sizeof(sListEntry));
+                Load->Appointment = malloc(sizeof(sAppointment));
                 if(Load){
-                    loadAppointment(Datei, Load);
-                    insertInDList(Load, sort_DateTime);
+                    loadAppointment(Datei, Load->Appointment);
+                    insertInDList(Load->Appointment, sort_DateTime);
                     appendInSList(Load);
                     Load = Load->Next;
                 }

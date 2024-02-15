@@ -81,21 +81,18 @@ sAppointment *getLastElement(){
 }
 
 
-int appendInSList(sAppointment *newApp){
-    sListEntry *newList = malloc(sizeof(sListEntry));
+int appendInSList(sListEntry *newList){
     int Index;
 
-    if(newApp && newList){
-        Index = calcDivisionRest(newApp->Description);
+    if(newList){
+        Index = calcDivisionRest(newList->Appointment->Description);
 
         if(AppIndex[Index].first == NULL){
             AppIndex[Index].first = AppIndex[Index].last = newList;
-            newList->Appointment = newApp;
             return 1;
         }
         else{
             AppIndex[Index].last = AppIndex[Index].last->Next = newList;
-            newList->Appointment = newApp;
             return 1;
         }
     }

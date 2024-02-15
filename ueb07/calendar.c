@@ -15,16 +15,17 @@ sHashEntry AppIndex[MAXINDEX];
 void createAppointment(){
     int check = 0;
 
-    sAppointment *Create = malloc(sizeof(sAppointment));
+    sListEntry *Create = malloc(sizeof(sListEntry));
+    Create->Appointment = malloc(sizeof(sAppointment));
     if(Create != NULL){
         enter(1);
         printf("Termin erstellen");
         enter(2);
-        if(getDate("Datum: ", &(Create->Date))){
-            if(getTime("Uhrzeit[Std:Min]: ", &(Create->Time))){
-                if(getDuration("Dauer[Std:Min:Sek]: ", &Create->Lenght)){
-                    if(getText("Terminbeschreibung: ", 100, &Create->Description, 0)){
-                        if(getText("Ort: ", 15, &Create->Location, 1))
+        if(getDate("Datum: ", &(Create->Appointment->Date))){
+            if(getTime("Uhrzeit[Std:Min]: ", &(Create->Appointment->Time))){
+                if(getDuration("Dauer[Std:Min:Sek]: ", &(Create->Appointment->Lenght))){
+                    if(getText("Terminbeschreibung: ", 100, &(Create->Appointment->Description), 0)){
+                        if(getText("Ort: ", 15, &(Create->Appointment->Location), 1))
                             check = 1;
                     }
                 }
@@ -33,7 +34,7 @@ void createAppointment(){
         enter(1);
     
         if(check == 1){
-            insertInDList(Create, sort_DateTime);
+            insertInDList(Create->Appointment, sort_DateTime);
             appendInSList(Create);
             check = saveCalendar();
             if(check == 1){
@@ -156,7 +157,7 @@ void searchAppointment(){
     enter(2);
 
     if(Search){
-        while(Search != NULL){
+        while(Search->Appointment->Description != NULL){
             if(Search->Appointment->Date.WeekDay == 0) weekday = "Sonntag";
             else if(Search->Appointment->Date.WeekDay == 1) weekday = "Montag";
             else if(Search->Appointment->Date.WeekDay == 2) weekday = "Dienstag";
@@ -190,8 +191,7 @@ void listAppointment(sAppointment *List, int withDate){
     char *weekday = NULL;
     sTime endTime = addTime(&(List->Time), &(List->Lenght));
 
-    if(withDate)
-    {
+    if(withDate){
         if(List->Date.WeekDay == 0) weekday = "Sonntag";
         else if(List->Date.WeekDay == 1) weekday = "Montag";
         else if(List->Date.WeekDay == 2) weekday = "Dienstag";
