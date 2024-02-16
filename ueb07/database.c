@@ -30,15 +30,17 @@ void saveAppointment(FILE *Datei, sAppointment *saveApp){
 int saveCalendar(){
     FILE *Datei = NULL;
     sAppointment *Save = NULL;
+    sAppointment *End = NULL;
 
     Datei = fopen("A:\\Dokumente\\BHT\\WiSe2324\\AuD\\ueb07\\calendar.xml", "wt");
     if(Datei){
 
         Save = getFirstElement();
+        End = getLastElement();
 
 
         fprintf(Datei, "%s" "%s", "<Calendar>", "\n");
-        while(Save != NULL){
+        while(Save != End->Next){
             saveAppointment(Datei, Save);
             Save = Save->Next;
         }

@@ -12,6 +12,34 @@
 
 sHashEntry AppIndex[MAXINDEX];
 
+void printHash(){
+    clearScreen();
+    int i;
+
+    title("Hashtabelle", '=');
+    printf("\nHashwert | Datum      | Uhrzeit | Terminbbeschreibung                                  ");
+    printf("\n---------|------------|---------|------------------------------------------------------");
+    for(i = 0; i<=MAXINDEX; i++){
+        if(AppIndex[i].first){
+            sListEntry *List = AppIndex[i].first;
+            sListEntry *End = AppIndex[i].last;
+
+            while(List != End->Next){
+                enter(1);
+                printf("%8i | ", i);
+                printDate(&(List->Appointment->Date));
+                printf(" |  ");
+                printTime(&(List->Appointment->Time));
+                printf("  | %s", List->Appointment->Description);
+                List = List->Next;
+            }
+        }
+    }
+    enter(2);
+    waitForEnter("Druecken Sie die Eingabetaste.. ");
+}
+
+
 void createAppointment(){
     int check = 0;
 
@@ -64,7 +92,7 @@ void editAppointment(){
     enter(1);
     printf("Termin bearbeiten");
     enter(2);
-    waitForEnter("Druecken Sie die Eingabetaste..");
+    waitForEnter("Chef nix hat gesagt wann das kommt. Druecken Sie Eingabetaste..");
 }
 
 
@@ -151,7 +179,6 @@ void searchAppointment(){
     scanf("%s", in);
     clearBuffer();
     Idex = calcDivisionRest(in);
-    printf("%i", Idex);
 
     Search = AppIndex[Idex].first;
     enter(2);
@@ -167,7 +194,7 @@ void searchAppointment(){
             else if(Search->Appointment->Date.WeekDay == 6) weekday = "Samstag";
             Search->Appointment->ID = i;
 
-            printf("%i. %s, ", Search->Appointment->ID, weekday);
+            printf("%s, ", weekday);
             printDate(&(Search->Appointment->Date));        
             printf(" | ");
             printTime(&(Search->Appointment->Time));
@@ -228,10 +255,12 @@ void listAppointment(sAppointment *List, int withDate){
 
 void listCalendar(){
     sAppointment *List = NULL;
+    sAppointment *End = NULL;
     int withDate;
     int counter = 0;
 
     List = getFirstElement();
+    End = getLastElement();
 
     clearScreen();
 
@@ -247,7 +276,7 @@ void listCalendar(){
         prev = List;
         List = List->Next;
 
-        while(List != NULL){
+        while(List != End->Next){
             withDate = (prev == NULL || (List->Date.Day != prev->Date.Day || List->Date.Month != prev->Date.Month || List->Date.Year != prev->Date.Year));
             listAppointment(List, withDate);
             prev = List;
@@ -258,6 +287,7 @@ void listCalendar(){
         }
 
         enter(2);
-        waitForEnter("Druecken sie zum Fortfahren die Eingabetaste..");
+        if(askYesOrNo("Hashtabelle ausgeben?[j/n]: "))
+            printHash();
     }
 }
