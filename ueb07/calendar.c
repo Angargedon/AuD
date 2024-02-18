@@ -12,33 +12,6 @@
 
 sHashEntry AppIndex[MAXINDEX];
 
-void printHash(){
-    clearScreen();
-    int i;
-
-    title("Hashtabelle", '=');
-    printf("\nHashwert | Datum      | Uhrzeit | Terminbbeschreibung                                  ");
-    printf("\n---------|------------|---------|------------------------------------------------------");
-    for(i = 0; i<=MAXINDEX; i++){
-        if(AppIndex[i].first){
-            sListEntry *List = AppIndex[i].first;
-            sListEntry *End = AppIndex[i].last;
-
-            while(List != End->Next){
-                enter(1);
-                printf("%8i | ", i);
-                printDate(&(List->Appointment->Date));
-                printf(" |  ");
-                printTime(&(List->Appointment->Time));
-                printf("  | %s", List->Appointment->Description);
-                List = List->Next;
-            }
-        }
-    }
-    enter(2);
-    waitForEnter("Druecken Sie die Eingabetaste.. ");
-}
-
 
 void createAppointment(){
     int check = 0;
@@ -88,11 +61,32 @@ void createAppointment(){
 }
 
 
-void editAppointment(){
-    enter(1);
-    printf("Termin bearbeiten");
+void printHash(){
+    clearScreen();
+    int i;
+
+    printf("Hashtabelle");
     enter(2);
-    waitForEnter("Chef nix hat gesagt wann das kommt. Druecken Sie Eingabetaste..");
+    printf("\nHashwert | Datum      | Uhrzeit | Terminbbeschreibung                                  ");
+    printf("\n---------|------------|---------|------------------------------------------------------");
+    for(i = 0; i<=MAXINDEX; i++){
+        if(AppIndex[i].first){
+            sListEntry *List = AppIndex[i].first;
+            sListEntry *End = AppIndex[i].last;
+
+            while(List != End->Next){
+                enter(1);
+                printf("%8i | ", i);
+                printDate(&(List->Appointment->Date));
+                printf(" |  ");
+                printTime(&(List->Appointment->Time));
+                printf("  | %s", List->Appointment->Description);
+                List = List->Next;
+            }
+        }
+    }
+    enter(2);
+    waitForEnter("Druecken Sie die Eingabetaste.. ");
 }
 
 
@@ -287,7 +281,6 @@ void listCalendar(){
         }
 
         enter(2);
-        if(askYesOrNo("Hashtabelle ausgeben?[j/n]: "))
-            printHash();
+        waitForEnter("Druecken Sie die Eingabetaste.. ");
     }
 }

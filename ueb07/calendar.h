@@ -3,7 +3,7 @@
 
 void createAppointment();
 
-void editAppointment();
+void printHash();
 
 void deleteAppointment();
 

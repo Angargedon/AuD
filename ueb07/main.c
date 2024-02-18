@@ -12,7 +12,7 @@ int main(){
     loadCalendar();
     
     do{
-        char *menuTitle[] = {"Termin erstellen", "Termin bearbeiten", "Termin entfernen", "Termin suchen", "Terminne auflisten", "Programm beenden"};
+        char *menuTitle[] = {"Termin erstellen", "Hashtabelle anzeigen", "Termin entfernen", "Termin suchen", "Terminne auflisten", "Programm beenden"};
         menuChoice = getMenu("ULTIMATIVE TERMINERSTELLUNGSSOFTWARE V1.0", menuTitle, 6);
 
 
@@ -21,7 +21,7 @@ int main(){
                 createAppointment();
                 break;
             case 2:
-                editAppointment();
+                printHash();
                 break;
             case 3:
                 deleteAppointment();
